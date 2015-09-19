@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="@dimen/activity_horizontal_margin">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/event_edit_ll_main">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:inputType="textPersonName"
+            android:ems="10"
+            android:id="@+id/event_edit_title"
+            android:hint=" Enter title" />
+
+        <LinearLayout style="@style/EventEditLinearList" >
+
+            <ImageView
+                android:layout_width="@dimen/edit_event_icon_width"
+                android:layout_height="@dimen/edit_event_icon_height"
+                android:src="@drawable/ic_schedule_black_36dp"
+                android:layout_gravity="center" />
+
+            <TextView style="@style/EventEditTextView"
+                android:text="Date"
+                android:id="@+id/event_edit_tv_startDate" />
+
+            <Space
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center" />
+
+            <TextView style="@style/EventEditTextView"
+                android:text="Time"
+                android:id="@+id/event_edit_tv_startTime" />
+
+        </LinearLayout>
+
+        <View style="@style/EventShortDivider"
+            android:id="@+id/event_edit_divider_endDateTime"
+            android:visibility="gone" />
+
+        <LinearLayout style="@style/EventEditLinearList"
+            android:id="@+id/event_edit_ll_endDateTime"
+            android:visibility="gone">
+
+            <Space
+                android:layout_width="@dimen/edit_event_icon_width"
+                android:layout_height="match_parent"
+                android:layout_gravity="center" />
+
+            <TextView style="@style/EventEditTextView"
+                android:text="Date"
+                android:id="@+id/event_edit_tv_endDate" />
+
+            <Space
+                android:layout_weight="1"
+                android:layout_width="20px"
+                android:layout_height="match_parent"
+                android:layout_gravity="center" />
+
+            <TextView style="@style/EventEditTextView"
+                android:text="Time"
+                android:id="@+id/event_edit_tv_endTime" />
+        </LinearLayout>
+
+        <LinearLayout style="@style/EventEditLinearList"
+            android:id="@+id/event_edit_ll_addEndTime">
+
+            <Space
+                android:layout_width="@dimen/edit_event_icon_width"
+                android:layout_height="match_parent"
+                android:layout_gravity="center" />
+
+            <TextView style="@style/EventEditTextView"
+                android:text="Add end time"
+                android:id="@+id/event_edit_tv_addEndTime"
+                android:textColor="@android:color/darker_gray" />
+
+        </LinearLayout>
+
+        <View style="@style/EventLongDivider" />
+
+        <LinearLayout style="@style/EventEditLinearList"  >
+
+            <ImageView
+                android:layout_width="@dimen/edit_event_icon_width"
+                android:layout_height="@dimen/edit_event_icon_height"
+                android:src="@drawable/ic_refresh_black_36dp"
+                android:layout_gravity="center" />
+
+            <TextView style="@style/EventEditTextView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center|start"
+                android:id="@+id/event_edit_tv_repeat"
+                android:text="@string/event_repeat_option_default" />
+
+        </LinearLayout>
+
+        <LinearLayout style="@style/EventEditLinearList"
+            android:id="@+id/event_edit_ll_untilDate"
+            android:visibility="gone">
+
+            <Space
+                android:layout_width="@dimen/edit_event_icon_width"
+                android:layout_height="match_parent"
+                android:layout_gravity="center" />
+
+            <TextView style="@style/EventEditTextView"
+                android:text="@string/event_repeat_until"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView style="@style/EventEditTextView"
+                android:text="Date"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/event_edit_tv_untilDate"
+                android:gravity="center|start" />
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:divider="?android:attr/dividerVertical"
+    android:showDividers="middle"
+    android:dividerPadding="12dp">
+<!--
+    <TextView style="?android:actionBarTabTextStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:drawableLeft="@drawable/ic_action_cancel"
+        android:gravity="center_vertical"
+        android:id="@+id/actionbar_cancel"/>
+        -->
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_gravity="center"
+        android:paddingRight="20dp"
+        android:gravity="center_vertical"
+        android:text="Title"
+        android:id="@+id/edit_event_actionbar_title"/>
+
+    <TextView style="?android:actionBarTabTextStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:paddingRight="10dp"
+        android:paddingLeft="20dp"
+        android:text="@string/save"
+        android:gravity="center_vertical"
+        android:id="@+id/actionbar_save"/>
+
+</LinearLayout>

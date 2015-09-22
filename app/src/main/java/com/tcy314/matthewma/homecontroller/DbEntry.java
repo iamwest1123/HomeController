@@ -12,6 +12,9 @@ public class DbEntry {
 
     /* Inner class that defines the table contents */
     public static abstract class Appliance {
+        public static final int STATE_NOT_SET = -2;
+        public static final int STATE_ON = -1;
+        public static final int STATE_OFF = 0;
         public static final String TABLE_NAME = "Appliance";
         public static final String TABLE_TEMP_NAME = "temp";
         public static final String COLUMN_BLE_ID = "BLE_ID";
@@ -140,7 +143,7 @@ public class DbEntry {
     }
 
     public static abstract class BLE {
-        public static final String TABLE_NAME = "BLE";
+        public static final String TABLE_NAME = "TIMER";
         public static final String COLUMN_BLE_ID = "BLE_ID";
         public static final String COLUMN_ADDRESS = "Address";
         public static final String COLUMN_ROOM_ID = "RoomID";
@@ -162,6 +165,63 @@ public class DbEntry {
             values.put(COLUMN_BLE_ID, bleId);
             values.put(COLUMN_ADDRESS, address);
             values.put(COLUMN_ROOM_ID, roomId);
+            return values;
+        }
+    }
+
+    public static abstract class Event {
+        public static final int REPEAT_NEVER = 0;
+        public static final int REPEAT_EVERY_DAY = 1;
+        public static final int REPEAT_EVERY_WEEK = 2;
+        public static final int REPEAT_EVERY_MONTH = 3;
+        public static final int REPEAT_EVERY_YEAR = 4;
+        public static final String TABLE_NAME = "Event";
+        public static final String COLUMN_ID = "ID";
+        public static final String COLUMN_TITLE = "Title";
+        public static final String COLUMN_BLE_ID = "BLE_ID";
+        public static final String COLUMN_PORT_ID = "Port";
+        public static final String COLUMN_START = "StartTime";
+        public static final String COLUMN_START_STATE = "StartState";
+        public static final String COLUMN_END = "EndTime";
+        public static final String COLUMN_END_STATE = "EndState";
+        public static final String COLUMN_REPEAT_OPTION = "RepeatOption";
+        public static final String COLUMN_UNTIL = "UntilTime";
+        public static final String CREATE_ENTRIES =
+                "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" +
+                        COLUMN_ID + " INTEGER PRIMARY KEY, " +
+                        COLUMN_TITLE + " TEXT, " +
+                        COLUMN_BLE_ID + " INTEGER NOT NULL, " +
+                        COLUMN_PORT_ID + " INTEGER NOT NULL,  " +
+                        COLUMN_START + " INTEGER NOT NULL, " +
+                        COLUMN_START_STATE + " INTEGER NOT NULL, " +
+                        COLUMN_END + " INTEGER, " +
+                        COLUMN_END_STATE + " INTEGER, " +
+                        COLUMN_REPEAT_OPTION + " INTEGER,  " +
+                        COLUMN_UNTIL + " INTEGER" +
+                        ")";
+        public static  final String DROP_TABLE =
+                "DROP TABLE IF EXISTS " + TABLE_NAME;
+        public static final String[] SELECT_ALL = {
+                COLUMN_ID, COLUMN_TITLE, COLUMN_BLE_ID, COLUMN_PORT_ID,
+                COLUMN_START, COLUMN_START_STATE, COLUMN_END, COLUMN_END_STATE,
+                COLUMN_REPEAT_OPTION, COLUMN_UNTIL
+        };
+
+        public static ContentValues put( String name,
+                com.tcy314.matthewma.homecontroller.Appliance.PrimaryKey primaryKey,
+                long startTime, int startState, long endTime, int endState,
+                int repeatOption, long untilTime)
+        {
+            ContentValues values = new ContentValues();
+            values.put(COLUMN_TITLE, name);
+            values.put(COLUMN_BLE_ID, primaryKey.bleId);
+            values.put(COLUMN_PORT_ID, primaryKey.portId);
+            values.put(COLUMN_START, startTime);
+            values.put(COLUMN_START_STATE, startState);
+            values.put(COLUMN_END, endTime);
+            values.put(COLUMN_END_STATE, endState);
+            values.put(COLUMN_REPEAT_OPTION, repeatOption);
+            values.put(COLUMN_UNTIL, untilTime);
             return values;
         }
     }

@@ -55,22 +55,20 @@ public class MainActivity extends Activity
         l.lock();
         try {
             insertTestEntry();
+            mNavigationDrawerFragment = (NavigationDrawerFragment)
+                    getFragmentManager().findFragmentById(R.id.navigation_drawer);
+            mTitle = getTitle();
+
+            // Set up the drawer.
+            mNavigationDrawerFragment.setUp(
+                    R.id.navigation_drawer,
+                    (DrawerLayout) findViewById(R.id.drawer_layout));
         } finally {
             l.unlock();
         }
-
-        mNavigationDrawerFragment = (NavigationDrawerFragment)
-                getFragmentManager().findFragmentById(R.id.navigation_drawer);
-        mTitle = getTitle();
-
-        // Set up the drawer.
-        mNavigationDrawerFragment.setUp(
-                R.id.navigation_drawer,
-                (DrawerLayout) findViewById(R.id.drawer_layout));
     }
 
     private void insertTestEntry() {
-        // Gets the data repository in write mode
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
         db.delete(DbEntry.Appliance.TABLE_NAME, null, null);
         db.delete(DbEntry.BLE.TABLE_NAME, null, null);
@@ -115,7 +113,15 @@ public class MainActivity extends Activity
         db.insert(DbEntry.BLE.TABLE_NAME, null, values);
         values.clear();
 
-        Log.i("insertTestEntry", "Insert Complete");
+        values = DbEntry.Event.put("TestEvent",
+                new Appliance.PrimaryKey(2, 1),
+                1, 1, 1, 1,
+                DbEntry.Event.REPEAT_NEVER, 1
+        );
+        mDbHelper.getWritableDatabase().insert(
+                DbEntry.Event.TABLE_NAME, null, values);
+
+        Log.i("insertTestEntry", "Complete");
 
         db.close();
     }

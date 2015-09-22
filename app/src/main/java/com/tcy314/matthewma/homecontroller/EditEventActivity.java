@@ -6,16 +6,16 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
+import android.content.ContentValues;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.app.DialogFragment;
-//import android.support.v4.app.DialogFragment;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -39,6 +39,10 @@ public class EditEventActivity extends Activity {
     private static Calendar startCalendar;
     private static Calendar endCalendar;
     private static Calendar untilCalendar;
+    private boolean endTimeAdded = false;
+    private int startState = DbEntry.Appliance.STATE_NOT_SET;
+    private int endState = DbEntry.Appliance.STATE_NOT_SET;
+    private int repeatOption = DbEntry.Event.REPEAT_NEVER;
     private LinearLayout ll_main;
     private LinearLayout ll_addEndTime;
     private LinearLayout ll_endDateTime;
@@ -50,10 +54,10 @@ public class EditEventActivity extends Activity {
     private TextView tv_addEndTime;
     private TextView tv_repeat;
     private TextView tv_untilDate;
+    private EditText et_title;
     private View div_endDateTime;
     private View startLayout;
     private View endLayout;
-
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,6 +75,15 @@ public class EditEventActivity extends Activity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        ContentValues values;
+                        values = DbEntry.Event.put(et_title.getText().toString(),
+                                appliance.getPrimaryKey(),
+                                startCalendar.getTimeInMillis(), startState,
+                                endCalendar.getTimeInMillis(), endState,
+                                repeatOption, untilCalendar.getTimeInMillis()
+                        );
+                        mDbHelper.getWritableDatabase().insert(
+                                DbEntry.Event.TABLE_NAME, null, values);
                         // "Save"
                         finish();
                     }
@@ -94,7 +107,11 @@ public class EditEventActivity extends Activity {
 
 
         setContentView(R.layout.event_edit_main);
-        startCalendar = endCalendar = untilCalendar = Calendar.getInstance();
+        startCalendar = Calendar.getInstance();
+        endCalendar = Calendar.getInstance();
+        untilCalendar = Calendar.getInstance();
+
+
         ll_main = (LinearLayout) findViewById(R.id.event_edit_ll_main);
         ll_addEndTime = (LinearLayout) findViewById(R.id.event_edit_ll_addEndTime);
         ll_endDateTime = (LinearLayout) findViewById(R.id.event_edit_ll_endDateTime);
@@ -107,6 +124,7 @@ public class EditEventActivity extends Activity {
         tv_repeat = (TextView) findViewById(R.id.event_edit_tv_repeat);
         tv_untilDate = (TextView) findViewById(R.id.event_edit_tv_untilDate);
         div_endDateTime = (View) findViewById(R.id.event_edit_divider_endDateTime);
+        et_title = (EditText) findViewById(R.id.event_edit_et_title);
 
         String dateString = DATE_FORMAT.format(startCalendar.getTime());
         String timeString = TIME_FORMAT.format(startCalendar.getTime());
@@ -122,8 +140,18 @@ public class EditEventActivity extends Activity {
                 startLayout = inflater.inflate(R.layout.event_edit_switch, null);
                 Switch startView = (Switch) startLayout.findViewById(R.id.event_edit_switch);
                 startView.setText("Set " + appliance.getName());
+                startView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (((Switch) v).isChecked())
+                            startState = DbEntry.Appliance.STATE_ON;
+                        else
+                            startState = DbEntry.Appliance.STATE_OFF;
+                    }
+                });
                 ((ViewGroup)startView.getParent()).removeView(startView);
                 ll_main.addView(startView, 2);
+                startState = 0;
                 break;
             default: break;
         }
@@ -131,6 +159,7 @@ public class EditEventActivity extends Activity {
         tv_addEndTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                endTimeAdded = true;
                 ll_addEndTime.setVisibility(View.GONE);
                 ll_endDateTime.setVisibility(View.VISIBLE);
                 div_endDateTime.setVisibility(View.VISIBLE);
@@ -140,8 +169,18 @@ public class EditEventActivity extends Activity {
                         endLayout = inflater.inflate(R.layout.event_edit_switch, null);
                         Switch endView = (Switch) endLayout.findViewById(R.id.event_edit_switch);
                         endView.setText("Set " + appliance.getName());
+                        endView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                if (((Switch) v).isChecked())
+                                    endState = DbEntry.Appliance.STATE_ON;
+                                else
+                                    endState = DbEntry.Appliance.STATE_OFF;
+                            }
+                        });
                         ((ViewGroup)endView.getParent()).removeView(endView);
                         ll_main.addView(endView, 5);
+                        endState = 0;
                         break;
                     default: break;
                 }
@@ -194,6 +233,19 @@ public class EditEventActivity extends Activity {
                         tv_repeat.setText(getResources().getStringArray(R.array.event_repeat_option)[which]);
                         switch (which) {
                             case 0: ll_untilDate.setVisibility(View.GONE);
+                                repeatOption = DbEntry.Event.REPEAT_NEVER;
+                                break;
+                            case 1: ll_untilDate.setVisibility(View.VISIBLE);
+                                repeatOption = DbEntry.Event.REPEAT_EVERY_DAY;
+                                break;
+                            case 2: ll_untilDate.setVisibility(View.VISIBLE);
+                                repeatOption = DbEntry.Event.REPEAT_EVERY_WEEK;
+                                break;
+                            case 3: ll_untilDate.setVisibility(View.VISIBLE);
+                                repeatOption = DbEntry.Event.REPEAT_EVERY_MONTH;
+                                break;
+                            case 4: ll_untilDate.setVisibility(View.VISIBLE);
+                                repeatOption = DbEntry.Event.REPEAT_EVERY_YEAR;
                                 break;
                             default: ll_untilDate.setVisibility(View.VISIBLE);
                                 break;
@@ -205,7 +257,6 @@ public class EditEventActivity extends Activity {
             }
         });
     }
-
 
     public static class DatePickerFragment extends DialogFragment
             implements DatePickerDialog.OnDateSetListener {
@@ -234,7 +285,7 @@ public class EditEventActivity extends Activity {
             if (id_update == R.id.event_edit_tv_startDate) {
                 startCalendar.set(year, month, day);
                 tv.setText(DATE_FORMAT.format(startCalendar.getTime()));
-            } else if (id_update == R.id.event_edit_tv_untilDate) {
+            } else if (id_update == R.id.event_edit_tv_endDate) {
                 endCalendar.set(year, month, day);
                 tv.setText(DATE_FORMAT.format(endCalendar.getTime()));
             } else {
@@ -270,12 +321,12 @@ public class EditEventActivity extends Activity {
             TextView tv = (TextView) getActivity().findViewById(id_update);
 
             if (id_update == R.id.event_edit_tv_startTime) {
-                startCalendar.set(startCalendar.get(Calendar.YEAR), startCalendar.get(Calendar.MONTH),
-                        startCalendar.get(Calendar.DATE),hourOfDay,minute);
+                startCalendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                startCalendar.set(Calendar.MINUTE, minute);
                 tv.setText(TIME_FORMAT.format(startCalendar.getTime()));
             } else {
-                endCalendar.set(endCalendar.get(Calendar.YEAR), endCalendar.get(Calendar.MONTH),
-                        endCalendar.get(Calendar.DATE),hourOfDay,minute);
+                endCalendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                endCalendar.set(Calendar.MINUTE, minute);
                 tv.setText(TIME_FORMAT.format(endCalendar.getTime()));
             }
         }

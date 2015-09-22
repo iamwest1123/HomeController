@@ -15,7 +15,7 @@
             android:layout_height="50dp"
             android:inputType="textPersonName"
             android:ems="10"
-            android:id="@+id/event_edit_title"
+            android:id="@+id/event_edit_et_title"
             android:hint=" Enter title" />
 
         <LinearLayout style="@style/EventEditLinearList" >

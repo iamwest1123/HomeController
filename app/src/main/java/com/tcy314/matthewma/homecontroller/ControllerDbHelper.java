@@ -14,7 +14,7 @@ import java.util.HashMap;
  * Created by Matthew Ma on 27/8/2015.
  */
 public class ControllerDbHelper extends SQLiteOpenHelper {
-    public static final int DATABASE_VERSION = 1;
+    public static final int DATABASE_VERSION = 8;
     public static final String DATABASE_NAME = "HomeControl.db";
     SQLiteDatabase db;
     private static SparseArray roomMap = new SparseArray();
@@ -26,23 +26,29 @@ public class ControllerDbHelper extends SQLiteOpenHelper {
     }
 
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(DbEntry.Room.DROP_TABLE);
-        db.execSQL(DbEntry.BLE.DROP_TABLE);
-        db.execSQL(DbEntry.Appliance.DROP_TABLE);
-        db.execSQL(DbEntry.ElectronicType.DROP_TABLE);
-        db.execSQL(DbEntry.Room.CREATE_ENTRIES);
-        db.execSQL(DbEntry.BLE.CREATE_ENTRIES);
-        db.execSQL(DbEntry.Appliance.CREATE_ENTRIES);
-        db.execSQL(DbEntry.ElectronicType.CREATE_ENTRIES);
+        DropAddTable(db);
         Log.i("ControllerDbHelper", "onCreate Completed");
     }
 
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        // Empty
+        DropAddTable(db);
     }
 
     public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        // Empty
+        DropAddTable(db);
+    }
+
+    private void DropAddTable(SQLiteDatabase db) {
+        db.execSQL(DbEntry.Room.DROP_TABLE);
+        db.execSQL(DbEntry.BLE.DROP_TABLE);
+        db.execSQL(DbEntry.Appliance.DROP_TABLE);
+        db.execSQL(DbEntry.ElectronicType.DROP_TABLE);
+        db.execSQL(DbEntry.Event.DROP_TABLE);
+        db.execSQL(DbEntry.Room.CREATE_ENTRIES);
+        db.execSQL(DbEntry.BLE.CREATE_ENTRIES);
+        db.execSQL(DbEntry.Appliance.CREATE_ENTRIES);
+        db.execSQL(DbEntry.ElectronicType.CREATE_ENTRIES);
+        db.execSQL(DbEntry.Event.CREATE_ENTRIES);
     }
 
     public Appliance getApplianceByPrimaryKey(Appliance.PrimaryKey appk) {

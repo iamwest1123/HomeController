@@ -149,11 +149,17 @@ public class ApplianceAdapter extends BaseAdapter {
                             public void onClick(DialogInterface dialog, int which) {
                                 // The 'which' argument contains the index position
                                 // of the selected item
+                                Intent intent;
                                 switch (which) {
                                     case 0:
-                                        Intent intent = new Intent(context, EditEventActivity.class);
+                                        intent = new Intent(context, EditEventActivity.class);
                                         intent.putExtra(EditEventActivity.TITLE, context.getString(R.string.new_event));
                                         intent.putExtra(EditEventActivity.APPLIANCE, ap.getPrimaryKey().toArray());
+                                        context.startActivity(intent);
+                                        break;
+                                    case 1:
+                                        intent = new Intent(context, ShowEventActivity.class);
+                                        intent.putExtra(ShowEventActivity.APPLIANCE, ap.getPrimaryKey().toArray());
                                         context.startActivity(intent);
                                         break;
                                     default: break;

@@ -24,10 +24,10 @@
     <string name="new_event">New event</string>
     <string-array name="event_repeat_option">
         <item>Does not repeat</item>
-        <item>Every day</item>
-        <item>Every week</item>
-        <item>Every month</item>
-        <item>Every year</item>
+        <item>Repeat every day</item>
+        <item>Repeat every week</item>
+        <item>Repeat every month</item>
+        <item>Repeat every year</item>
     </string-array>
     <string name="event_repeat_option_default">Does not repeat</string>
     <string name="event_repeat_until">Until</string>

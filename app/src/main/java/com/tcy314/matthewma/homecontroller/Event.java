@@ -16,29 +16,32 @@ public class Event {
     private int id;
     private String title;
     private Appliance.PrimaryKey appk;
-    private Calendar startTime;
-    private Calendar endTime;
-    private Calendar untilTime;
+    private Calendar startCalendar;
+    private Calendar endCalendar;
+    private Calendar untilCalendar;
     private int startState;
     private int endState;
     private int repeatOption;
 
     public Event () {
-        this.startTime = Calendar.getInstance();
-        this.endTime = Calendar.getInstance();
-        this.untilTime = Calendar.getInstance();
+        this.startCalendar = Calendar.getInstance();
+        this.endCalendar = Calendar.getInstance();
+        this.untilCalendar = Calendar.getInstance();
+        this.startState = DbEntry.Appliance.STATE_NOT_SET;
+        this.endState = DbEntry.Appliance.STATE_NOT_SET;
+        this.repeatOption = DbEntry.Event.REPEAT_NEVER;
     }
 
     public Event (int id, String title, Appliance.PrimaryKey appk,
-                  long startTime, long endTime, long untilTime,
+                  long startCalendar, long endCalendar, long untilCalendar,
                   int startState, int endState, int repeatOption) {
         this();
         this.id = id;
         this.title = title;
         this.appk = appk;
-        this.startTime.setTimeInMillis(startTime);
-        this.endTime.setTimeInMillis(endTime);
-        this.untilTime.setTimeInMillis(untilTime);
+        this.startCalendar.setTimeInMillis(startCalendar);
+        this.endCalendar.setTimeInMillis(endCalendar);
+        this.untilCalendar.setTimeInMillis(untilCalendar);
         this.startState = startState;
         this.endState = endState;
         this.repeatOption = repeatOption;
@@ -72,23 +75,23 @@ public class Event {
     public Appliance.PrimaryKey getAppk() {
         return appk;
     }
-    public Calendar getStartTime() {
-        return startTime;
+    public Calendar getStartCalendar() {
+        return startCalendar;
     }
-    public Calendar getEndTime() {
-        return endTime;
+    public Calendar getEndCalendar() {
+        return endCalendar;
     }
-    public Calendar getUntilTime() {
-        return untilTime;
+    public Calendar getUntilCalendar() {
+        return untilCalendar;
     }
-    public String getStartTimeInString() {
-        return DATE_TIME_FORMAT.format(startTime.getTime());
+    public String getStartCalendarInString(SimpleDateFormat sdf) {
+        return sdf.format(startCalendar.getTime());
     }
-    public String getEndTimeInString() {
-        return DATE_TIME_FORMAT.format(endTime.getTime());
+    public String getEndCalendarInString(SimpleDateFormat sdf) {
+        return sdf.format(endCalendar.getTime());
     }
-    public String getUntilTimeInString() {
-        return DATE_FORMAT.format(untilTime.getTime());
+    public String getUntilCalendarInString(SimpleDateFormat sdf) {
+        return sdf.format(untilCalendar.getTime());
     }
     public int getStartState() {
         return startState;
@@ -103,21 +106,20 @@ public class Event {
     public void setId(int id) {
         this.id = id;
     }
-
     public void setTitle(String title) {
         this.title = title;
     }
     public void setAppk(Appliance.PrimaryKey appk) {
         this.appk = appk;
     }
-    public void setStartTime(Calendar startTime) {
-        this.startTime = startTime;
+    public void setStartCalendar(Calendar startCalendar) {
+        this.startCalendar = startCalendar;
     }
-    public void setEndTime(Calendar endTime) {
-        this.endTime = endTime;
+    public void setEndCalendar(Calendar endCalendar) {
+        this.endCalendar = endCalendar;
     }
-    public void setUntilTime(Calendar untilTime) {
-        this.untilTime = untilTime;
+    public void setUntilCalendar(Calendar untilCalendar) {
+        this.untilCalendar = untilCalendar;
     }
     public void setStartState(int startState) {
         this.startState = startState;

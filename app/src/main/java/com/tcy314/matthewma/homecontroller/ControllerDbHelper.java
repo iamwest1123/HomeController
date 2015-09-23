@@ -16,7 +16,7 @@ import java.util.HashMap;
 public class ControllerDbHelper extends SQLiteOpenHelper {
     public static final int DATABASE_VERSION = 8;
     public static final String DATABASE_NAME = "HomeControl.db";
-    SQLiteDatabase db;
+    private static SQLiteDatabase db;
     private static SparseArray roomMap = new SparseArray();
     private static SparseArray electronicTypeMap = new SparseArray();
     private static HashMap<Appliance.PrimaryKey, Appliance> applianceMap = new HashMap<>();
@@ -72,16 +72,6 @@ public class ControllerDbHelper extends SQLiteOpenHelper {
         cursor.close();
         return null;
     }
-
-    public boolean updateApplianceByPrimaryKey(int bleId, int portId, ContentValues cv) {
-        db = this.getWritableDatabase();
-        int result = db.update(DbEntry.Appliance.TABLE_NAME,
-                cv,
-                DbEntry.Appliance.COLUMN_BLE_ID + " =? and " + DbEntry.Appliance.COLUMN_PORT_ID + " =?",
-                new String[]{String.valueOf(bleId), String.valueOf(portId)});
-        return (result != 0);
-    }
-
     public String getRoomNameByPrimaryKey(int roomId) {
         // check psudo cache memory
         if (roomMap.get(roomId) != null) {
@@ -103,7 +93,6 @@ public class ControllerDbHelper extends SQLiteOpenHelper {
         cursor.close();
         return null;
     }
-
     public ElectronicType getElectronicTypeByPrimaryKey(int typeId) {
         if (electronicTypeMap.get(typeId) != null) {
             return (ElectronicType)electronicTypeMap.get(typeId);
@@ -124,7 +113,6 @@ public class ControllerDbHelper extends SQLiteOpenHelper {
         cursor.close();
         return null;
     }
-
     public Event getEventByPrimaryKey(int id) {
         db = this.getWritableDatabase();
         Cursor cursor = db.query(DbEntry.Event.TABLE_NAME,
@@ -139,5 +127,35 @@ public class ControllerDbHelper extends SQLiteOpenHelper {
             return result;
         }
         return null;
+    }
+    public void getBleByPrimaryKey() {
+        // TODO
+    }
+
+    // TODO Update by primary key
+    public boolean updateEventByPrimaryKey(int id, ContentValues cv) {
+        db = this.getWritableDatabase();
+        int result = db.update(DbEntry.Event.TABLE_NAME,
+                cv,
+                DbEntry.Event.COLUMN_ID + " =?",
+                new String[]{String.valueOf(id)});
+        return (result != 0);
+    }
+    public boolean updateApplianceByPrimaryKey(int bleId, int portId, ContentValues cv) {
+        db = this.getWritableDatabase();
+        int result = db.update(DbEntry.Appliance.TABLE_NAME,
+                cv,
+                DbEntry.Appliance.COLUMN_BLE_ID + " =? and " + DbEntry.Appliance.COLUMN_PORT_ID + " =?",
+                new String[]{String.valueOf(bleId), String.valueOf(portId)});
+        return (result != 0);
+    }
+
+    //TODO Delete by primary key
+    public boolean deleteEventByPrimaryKey(int id) {
+        db = this.getWritableDatabase();
+        int result = db.delete(DbEntry.Event.TABLE_NAME,
+                DbEntry.Event.COLUMN_ID + " =?",
+                new String[]{String.valueOf(id)});
+        return (result != 0);
     }
 }

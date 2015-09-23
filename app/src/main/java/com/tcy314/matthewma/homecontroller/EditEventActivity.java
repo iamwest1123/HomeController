@@ -37,16 +37,10 @@ public class EditEventActivity extends Activity {
     private static ControllerDbHelper mDbHelper;
     private Appliance appliance;
     // TODO use this event to set new event
-    private Event event;
+    private static Event event;
     private ElectronicType eType;
-    private static Calendar startCalendar;
-    private static Calendar endCalendar;
-    private static Calendar untilCalendar;
     private boolean endTimeAdded = false;
     private boolean isEditingEvent;
-    private int startState = DbEntry.Appliance.STATE_NOT_SET;
-    private int endState = DbEntry.Appliance.STATE_NOT_SET;
-    private int repeatOption = DbEntry.Event.REPEAT_NEVER;
     private LinearLayout ll_main;
     private LinearLayout ll_addEndTime;
     private LinearLayout ll_endDateTime;
@@ -77,7 +71,10 @@ public class EditEventActivity extends Activity {
             eType = mDbHelper.getElectronicTypeByPrimaryKey(appliance.getTypeId());
         }
         else {  // add new event
-            appliance = mDbHelper.getApplianceByPrimaryKey(new Appliance.PrimaryKey(apArray[0],apArray[1]));
+            event = new Event();
+            Appliance.PrimaryKey appk = new Appliance.PrimaryKey(apArray[0],apArray[1]);
+            event.setAppk(appk);
+            appliance = mDbHelper.getApplianceByPrimaryKey(appk);
             eType = mDbHelper.getElectronicTypeByPrimaryKey(appliance.getTypeId());
         }
 
@@ -92,14 +89,15 @@ public class EditEventActivity extends Activity {
                     public void onClick(View v) {
                         // TODO: edit / new event
                         ContentValues values;
-                        values = DbEntry.Event.put(et_title.getText().toString(),
-                                appliance.getPrimaryKey(),
-                                startCalendar.getTimeInMillis(), startState,
-                                endCalendar.getTimeInMillis(), endState,
-                                repeatOption, untilCalendar.getTimeInMillis()
-                        );
-                        mDbHelper.getWritableDatabase().insert(
-                                DbEntry.Event.TABLE_NAME, null, values);
+                        String title = et_title.getText().toString();
+                        event.setTitle(title);
+                        values = DbEntry.Event.put(event);
+                        if (isEditingEvent) {
+                            mDbHelper.updateEventByPrimaryKey(event.getId(), values);
+                        } else {
+                            mDbHelper.getWritableDatabase().insert(
+                                    DbEntry.Event.TABLE_NAME, null, values);
+                        }
                         finish();
                     }
                 });
@@ -136,6 +134,9 @@ public class EditEventActivity extends Activity {
         div_endDateTime = (View) findViewById(R.id.event_edit_divider_endDateTime);
         et_title = (EditText) findViewById(R.id.event_edit_et_title);
 
+        if (isEditingEvent)
+            et_title.setText(event.getTitle());
+
         // set status button and end time
         switch (eType.getButtonType()) {
             case ElectronicType.TOGGLE_BUTTON:
@@ -143,27 +144,24 @@ public class EditEventActivity extends Activity {
                 startLayout = inflater.inflate(R.layout.event_edit_switch, null);
                 Switch startView = (Switch) startLayout.findViewById(R.id.event_edit_switch);
                 startView.setText("Set " + appliance.getName());
-                if (isEditingEvent)
-                    if (event.getStartState() == DbEntry.Appliance.STATE_ON) {
-                        startState = DbEntry.Appliance.STATE_ON;
+                event.setStartState(DbEntry.Appliance.STATE_DEFAULT);
+                if (isEditingEvent) {
+                    if (event.getStartState() == DbEntry.Appliance.STATE_ON)
                         startView.setChecked(true);
-                    }
-                    else {
-                        startState = DbEntry.Appliance.STATE_OFF;
+                    else
                         startView.setChecked(false);
-                    }
+                }
                 startView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         if (((Switch) v).isChecked())
-                            startState = DbEntry.Appliance.STATE_ON;
+                            event.setStartState(DbEntry.Appliance.STATE_ON);
                         else
-                            startState = DbEntry.Appliance.STATE_OFF;
+                            event.setStartState(DbEntry.Appliance.STATE_OFF);
                     }
                 });
                 ((ViewGroup)startView.getParent()).removeView(startView);
                 ll_main.addView(startView, 2);
-                startState = 0;
                 break;
             default: break;
         }
@@ -180,27 +178,24 @@ public class EditEventActivity extends Activity {
                         endLayout = inflater.inflate(R.layout.event_edit_switch, null);
                         Switch endView = (Switch) endLayout.findViewById(R.id.event_edit_switch);
                         endView.setText("Set " + appliance.getName());
-                        if (isEditingEvent)
-                            if (event.getStartState() == DbEntry.Appliance.STATE_ON) {
-                                startState = DbEntry.Appliance.STATE_ON;
+                        event.setEndState(DbEntry.Appliance.STATE_DEFAULT);
+                        if (isEditingEvent) {
+                            if (event.getEndState() == DbEntry.Appliance.STATE_ON)
                                 endView.setChecked(true);
-                            }
-                            else {
-                                startState = DbEntry.Appliance.STATE_OFF;
+                            else
                                 endView.setChecked(false);
-                            }
+                        }
                         endView.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 if (((Switch) v).isChecked())
-                                    endState = DbEntry.Appliance.STATE_ON;
+                                    event.setEndState(DbEntry.Appliance.STATE_ON);
                                 else
-                                    endState = DbEntry.Appliance.STATE_OFF;
+                                    event.setEndState(DbEntry.Appliance.STATE_OFF);
                             }
                         });
                         ((ViewGroup)endView.getParent()).removeView(endView);
                         ll_main.addView(endView, 5);
-                        endState = 0;
                         break;
                     default: break;
                 }
@@ -208,25 +203,17 @@ public class EditEventActivity extends Activity {
         });
 
         // setup calendar
-        startCalendar = Calendar.getInstance();
-        endCalendar = Calendar.getInstance();
-        untilCalendar = Calendar.getInstance();
         if (isEditingEvent) {
-            startCalendar = event.getStartTime();
             if (event.isEndTimeSet()) {
-                endCalendar = event.getEndTime();
                 tv_addEndTime.performClick();
             }
             setRepeatOption(event.getRepeatOption());
-            if (event.getRepeatOption() != DbEntry.Event.REPEAT_NEVER) {
-                untilCalendar = event.getUntilTime();
-            }
         }
-        tv_startDate.setText(DATE_FORMAT.format(startCalendar.getTime()));
-        tv_startTime.setText(TIME_FORMAT.format(startCalendar.getTime()));
-        tv_endDate.setText(DATE_FORMAT.format(endCalendar.getTime()));
-        tv_endTime.setText(TIME_FORMAT.format(endCalendar.getTime()));
-        tv_untilDate.setText(DATE_FORMAT.format(untilCalendar.getTime()));
+        tv_startDate.setText(DATE_FORMAT.format(event.getStartCalendar().getTime()));
+        tv_startTime.setText(TIME_FORMAT.format(event.getStartCalendar().getTime()));
+        tv_endDate.setText(DATE_FORMAT.format(event.getEndCalendar().getTime()));
+        tv_endTime.setText(TIME_FORMAT.format(event.getEndCalendar().getTime()));
+        tv_untilDate.setText(DATE_FORMAT.format(event.getUntilCalendar().getTime()));
 
 
 
@@ -244,6 +231,13 @@ public class EditEventActivity extends Activity {
                 newFragment.show(getFragmentManager(), "datePicker");
             }
         });
+        tv_untilDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogFragment newFragment = DatePickerFragment.newInstance(R.id.event_edit_tv_untilDate);
+                newFragment.show(getFragmentManager(), "datePicker");
+            }
+        });
         tv_startTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -256,13 +250,6 @@ public class EditEventActivity extends Activity {
             public void onClick(View v) {
                 DialogFragment newFragment = TimePickerFragment.newInstance(R.id.event_edit_tv_endTime);
                 newFragment.show(getFragmentManager(), "timePicker");
-            }
-        });
-        tv_untilDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DialogFragment newFragment = DatePickerFragment.newInstance(R.id.event_edit_tv_untilDate);
-                newFragment.show(getFragmentManager(), "datePicker");
             }
         });
 
@@ -287,19 +274,23 @@ public class EditEventActivity extends Activity {
         tv_repeat.setText(getResources().getStringArray(R.array.event_repeat_option)[repeat]);
         switch (repeat) {
             case 0: ll_untilDate.setVisibility(View.GONE);
-                repeatOption = DbEntry.Event.REPEAT_NEVER;
+                event.setRepeatOption(DbEntry.Event.REPEAT_NEVER);
                 break;
-            case 1: ll_untilDate.setVisibility(View.VISIBLE);
-                repeatOption = DbEntry.Event.REPEAT_EVERY_DAY;
+            case 1:
+                ll_untilDate.setVisibility(View.VISIBLE);
+                event.setRepeatOption(DbEntry.Event.REPEAT_EVERY_DAY);
                 break;
-            case 2: ll_untilDate.setVisibility(View.VISIBLE);
-                repeatOption = DbEntry.Event.REPEAT_EVERY_WEEK;
+            case 2:
+                ll_untilDate.setVisibility(View.VISIBLE);
+                event.setRepeatOption(DbEntry.Event.REPEAT_EVERY_WEEK);
                 break;
-            case 3: ll_untilDate.setVisibility(View.VISIBLE);
-                repeatOption = DbEntry.Event.REPEAT_EVERY_MONTH;
+            case 3:
+                ll_untilDate.setVisibility(View.VISIBLE);
+                event.setRepeatOption(DbEntry.Event.REPEAT_EVERY_MONTH);
                 break;
-            case 4: ll_untilDate.setVisibility(View.VISIBLE);
-                repeatOption = DbEntry.Event.REPEAT_EVERY_YEAR;
+            case 4:
+                ll_untilDate.setVisibility(View.VISIBLE);
+                event.setRepeatOption(DbEntry.Event.REPEAT_EVERY_YEAR);
                 break;
             default: ll_untilDate.setVisibility(View.VISIBLE);
                 break;
@@ -318,8 +309,14 @@ public class EditEventActivity extends Activity {
 
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
-            // Use the current date as the default date in the picker
-            final Calendar c = Calendar.getInstance();
+            Calendar c;
+            if (id_update == R.id.event_edit_tv_startDate) {
+                c = event.getStartCalendar();
+            } else if (id_update == R.id.event_edit_tv_endDate) {
+                c = event.getEndCalendar();
+            } else {
+                c = event.getUntilCalendar();
+            }
             int year = c.get(Calendar.YEAR);
             int month = c.get(Calendar.MONTH);
             int day = c.get(Calendar.DAY_OF_MONTH);
@@ -331,14 +328,14 @@ public class EditEventActivity extends Activity {
         public void onDateSet(DatePicker view, int year, int month, int day) {
             TextView tv = (TextView) getActivity().findViewById(id_update);
             if (id_update == R.id.event_edit_tv_startDate) {
-                startCalendar.set(year, month, day);
-                tv.setText(DATE_FORMAT.format(startCalendar.getTime()));
+                event.getStartCalendar().set(year, month, day);
+                tv.setText(DATE_FORMAT.format(event.getStartCalendar().getTime()));
             } else if (id_update == R.id.event_edit_tv_endDate) {
-                endCalendar.set(year, month, day);
-                tv.setText(DATE_FORMAT.format(endCalendar.getTime()));
+                event.getEndCalendar().set(year, month, day);
+                tv.setText(DATE_FORMAT.format(event.getEndCalendar().getTime()));
             } else {
-                untilCalendar.set(year, month, day);
-                tv.setText(DATE_FORMAT.format(untilCalendar.getTime()));
+                event.getUntilCalendar().set(year, month, day);
+                tv.setText(DATE_FORMAT.format(event.getUntilCalendar().getTime()));
             }
         }
     }
@@ -356,7 +353,12 @@ public class EditEventActivity extends Activity {
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             // Use the current time as the default values for the picker
-            final Calendar c = Calendar.getInstance();
+            Calendar c;
+            if (id_update == R.id.event_edit_tv_startTime) {
+                c = event.getStartCalendar();
+            } else {
+                c = event.getEndCalendar();
+            }
             int hour = c.get(Calendar.HOUR_OF_DAY);
             int minute = c.get(Calendar.MINUTE);
 
@@ -369,13 +371,13 @@ public class EditEventActivity extends Activity {
             TextView tv = (TextView) getActivity().findViewById(id_update);
 
             if (id_update == R.id.event_edit_tv_startTime) {
-                startCalendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
-                startCalendar.set(Calendar.MINUTE, minute);
-                tv.setText(TIME_FORMAT.format(startCalendar.getTime()));
+                event.getStartCalendar().set(Calendar.HOUR_OF_DAY, hourOfDay);
+                event.getStartCalendar().set(Calendar.MINUTE, minute);
+                tv.setText(TIME_FORMAT.format(event.getStartCalendar().getTime()));
             } else {
-                endCalendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
-                endCalendar.set(Calendar.MINUTE, minute);
-                tv.setText(TIME_FORMAT.format(endCalendar.getTime()));
+                event.getEndCalendar().set(Calendar.HOUR_OF_DAY, hourOfDay);
+                event.getEndCalendar().set(Calendar.MINUTE, minute);
+                tv.setText(TIME_FORMAT.format(event.getEndCalendar().getTime()));
             }
         }
     }

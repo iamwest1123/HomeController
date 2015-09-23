@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name">Home Controller</string>
 
+    <string name="delete">Delete</string>
+    <string name="cancel">Cancel</string>
+    <string name="save">Save</string>
+
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
@@ -20,8 +24,8 @@
         <item>View Event</item>
     </string-array>
 
-    <string name="save">Save</string>
     <string name="new_event">New event</string>
+    <string name="edit_event">Edit event</string>
     <string-array name="event_repeat_option">
         <item>Does not repeat</item>
         <item>Repeat every day</item>
@@ -29,6 +33,11 @@
         <item>Repeat every month</item>
         <item>Repeat every year</item>
     </string-array>
+    <string-array name="event_show_alert_dialog">
+        <item>Edit event</item>
+        <item>Delete</item>
+    </string-array>
     <string name="event_repeat_option_default">Does not repeat</string>
     <string name="event_repeat_until">Until</string>
+    <string name="event_delete_message">Delete this event?</string>
 </resources>

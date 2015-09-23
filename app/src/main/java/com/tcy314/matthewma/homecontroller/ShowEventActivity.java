@@ -8,16 +8,20 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * Created by Matthew Ma on 22/9/2015.
@@ -27,7 +31,7 @@ public class ShowEventActivity extends Activity {
     private static ControllerDbHelper mDbHelper;
     private Appliance appliance;
     private EventAdapter eventAdapter;
-    private ArrayList<Event> arrayList = new ArrayList<>();
+    private ArrayList<Event> eventArrayList = new ArrayList<>();
     private Context context;
     private TextView tv_title;
     private TextView tv_startTime;
@@ -36,6 +40,8 @@ public class ShowEventActivity extends Activity {
     private TextView tv_endStatus;
     private TextView tv_repeat;
     private LinearLayout ll_end;
+    private boolean isArrayListUpdated = false;
+    private int eventIdToBeUpdate;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,11 +59,11 @@ public class ShowEventActivity extends Activity {
                 null, null, DbEntry.Event.COLUMN_START + " ASC");
         if (cursor.moveToFirst()) {
             do {
-                arrayList.add(new Event(cursor));
+                eventArrayList.add(new Event(cursor));
             } while (cursor.moveToNext());
         }
         cursor.close();
-        eventAdapter = new EventAdapter(this);
+        eventAdapter = new EventAdapter();
         ListView lv = (ListView) findViewById(R.id.event_show_lv);
         lv.setAdapter(eventAdapter);
 
@@ -69,16 +75,12 @@ public class ShowEventActivity extends Activity {
                     public void onClick(DialogInterface dialog, int which) {
                         // The 'which' argument contains the index position
                         // of the selected item
-                        Intent intent;
                         switch (which) {
                             case 0:
-                                intent = new Intent(context, EditEventActivity.class);
-                                intent.putExtra(EditEventActivity.TITLE, context.getString(R.string.edit_event));
-                                intent.putExtra(EditEventActivity.EVENT_ID, arrayList.get(position).getId());
-                                context.startActivity(intent);
+                                StartEditActivity(position);
                                 break;
                             case 1:
-                                // TODO delete event
+                                CreateDeleteDialog(position);
                                 break;
                             default:
                                 break;
@@ -91,34 +93,84 @@ public class ShowEventActivity extends Activity {
         });
     }
 
-    public class EventAdapter extends BaseAdapter {
-        Context context;
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (isArrayListUpdated) {
+            updateEventList(eventIdToBeUpdate);
+        }
+    }
+
+    private void updateEventList(final int eventId) {
+        isArrayListUpdated = false;
+        Event newEvent = mDbHelper.getEventByPrimaryKey(eventId);
+        int index = -1;
+        for (int i = 0; i < eventArrayList.size(); i++) {
+            if (eventArrayList.get(i).getId() == eventId) {
+                index = i;
+                break;
+            }
+        }
+        if (index != -1) {  // found in the list
+            if (newEvent == null) // delete event)
+                eventArrayList.remove(index);
+            else    // update event
+                eventArrayList.set(index, newEvent);
+            eventAdapter.notifyDataSetChanged();
+        }
+    }
+
+    private void StartEditActivity(final int position) {
+        Intent intent = new Intent(context, EditEventActivity.class);
+        int eventId = eventArrayList.get(position).getId();
+        intent.putExtra(EditEventActivity.TITLE, context.getString(R.string.edit_event));
+        intent.putExtra(EditEventActivity.EVENT_ID, eventId);
+        context.startActivity(intent);
+        isArrayListUpdated = true;
+        eventIdToBeUpdate = eventId;
+    }
+
+    private void CreateDeleteDialog(final int position) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(R.string.event_delete_message)
+                .setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // Delete from database
+                        isArrayListUpdated = true;
+                        eventIdToBeUpdate = eventArrayList.get(position).getId();
+                        int eventId = eventArrayList.get(position).getId();
+                        boolean deleted = mDbHelper.deleteEventByPrimaryKey(eventId);
+                        updateEventList(eventId);
+                        if (!deleted) {
+                            Log.e("Delete event","Nothing is deleted");
+                        }
+                    }
+                })
+                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // User cancelled the dialog
+                        // Do nothing
+                    }
+                });
+        // Create the AlertDialog object and return it
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+
+    public class EventAdapter extends ArrayAdapter<Event> {
         private LayoutInflater inflater;
 
-        public EventAdapter(Context context) {
-            this.context = context;
+        public EventAdapter() {
+            super(context, R.layout.event_show_layout, eventArrayList);
             inflater = ( LayoutInflater )context.
                     getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        }
-        @Override
-        public int getCount() {
-            return arrayList.size();
-        }
-
-        @Override
-        public Event getItem(int position) {
-            return arrayList.get(position);
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
         }
 
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
-            Event event = getItem(position);
-            convertView = inflater.inflate(R.layout.event_show_layout, parent, false);
+            if (convertView == null)
+                convertView = inflater.inflate(R.layout.event_show_layout, parent, false);
+            Event event = eventArrayList.get(position);
             tv_title = (TextView) convertView.findViewById(R.id.event_show_title);
             tv_startTime = (TextView) convertView.findViewById(R.id.event_show_tv_startTime);
             tv_endTime = (TextView) convertView.findViewById(R.id.event_show_tv_endTime);
@@ -128,8 +180,8 @@ public class ShowEventActivity extends Activity {
             ll_end = (LinearLayout) convertView.findViewById(R.id.event_show_ll_end);
 
             tv_title.setText(event.getTitle());
-            tv_startTime.setText(event.getStartTimeInString());
-            tv_endTime.setText(event.getEndTimeInString());
+            tv_startTime.setText(event.getStartCalendarInString(Event.DATE_TIME_FORMAT));
+            tv_endTime.setText(event.getEndCalendarInString(Event.DATE_TIME_FORMAT));
             switch (event.getStartState())
             {
                 case DbEntry.Appliance.STATE_ON:
@@ -152,7 +204,7 @@ public class ShowEventActivity extends Activity {
             }
             String repeatString = getResources().getStringArray(R.array.event_repeat_option)[event.getRepeatOption()];
             if (event.getRepeatOption() != DbEntry.Event.REPEAT_NEVER)
-                repeatString += " until " + event.getUntilTimeInString();
+                repeatString += " until " + event.getUntilCalendarInString(Event.DATE_FORMAT);
             tv_repeat.setText(repeatString);
             return convertView;
         }

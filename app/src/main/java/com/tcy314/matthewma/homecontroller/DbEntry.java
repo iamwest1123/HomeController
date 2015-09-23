@@ -1,6 +1,7 @@
 package com.tcy314.matthewma.homecontroller;
 
 import android.content.ContentValues;
+import android.content.Context;
 
 /**
  * Created by Matthew Ma on 27/8/2015.
@@ -15,6 +16,7 @@ public class DbEntry {
         public static final int STATE_NOT_SET = -2;
         public static final int STATE_ON = -1;
         public static final int STATE_OFF = 0;
+        public static final int STATE_DEFAULT = STATE_OFF;
         public static final String TABLE_NAME = "Appliance";
         public static final String TABLE_TEMP_NAME = "temp";
         public static final String COLUMN_BLE_ID = "BLE_ID";
@@ -207,7 +209,7 @@ public class DbEntry {
                 COLUMN_REPEAT_OPTION, COLUMN_UNTIL
         };
 
-        public static ContentValues put( String name,
+        public static ContentValues put(String name,
                 com.tcy314.matthewma.homecontroller.Appliance.PrimaryKey primaryKey,
                 long startTime, int startState, long endTime, int endState,
                 int repeatOption, long untilTime)
@@ -222,6 +224,19 @@ public class DbEntry {
             values.put(COLUMN_END_STATE, endState);
             values.put(COLUMN_REPEAT_OPTION, repeatOption);
             values.put(COLUMN_UNTIL, untilTime);
+            return values;
+        }
+        public static ContentValues put(com.tcy314.matthewma.homecontroller.Event event) {
+            ContentValues values = new ContentValues();
+            values.put(COLUMN_TITLE, event.getTitle());
+            values.put(COLUMN_BLE_ID, event.getAppk().bleId);
+            values.put(COLUMN_PORT_ID, event.getAppk().portId);
+            values.put(COLUMN_START, event.getStartCalendar().getTimeInMillis());
+            values.put(COLUMN_END, event.getEndCalendar().getTimeInMillis());
+            values.put(COLUMN_UNTIL, event.getUntilCalendar().getTimeInMillis());
+            values.put(COLUMN_START_STATE, event.getStartState());
+            values.put(COLUMN_END_STATE, event.getEndState());
+            values.put(COLUMN_REPEAT_OPTION, event.getRepeatOption());
             return values;
         }
     }

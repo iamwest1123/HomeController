@@ -80,8 +80,8 @@ public class AddDeviceDialogFragment extends DialogFragment {
 
         // Create Room List
         roomList = new ArrayList<>();
-        for (int i = 2; mDbHelper.getRoomNameByPrimaryKey(i) != null; i++) {
-            roomList.add(mDbHelper.getRoomNameByPrimaryKey(i));
+        for (int i = 2; mDbHelper.getRoomByPrimaryKey(i) != null; i++) {
+            roomList.add(mDbHelper.getRoomByPrimaryKey(i));
         }
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
                 android.R.layout.simple_spinner_item, roomList);

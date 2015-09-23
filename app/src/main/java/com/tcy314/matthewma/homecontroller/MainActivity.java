@@ -137,7 +137,7 @@ public class MainActivity extends Activity
 
     public void onSectionAttached(int number) {
         // get title
-        mTitle = mDbHelper.getRoomNameByPrimaryKey(number);
+        mTitle = mDbHelper.getRoomByPrimaryKey(number);
         switch (number)
         {
             case 1: //freq use
@@ -244,7 +244,7 @@ public class MainActivity extends Activity
                 if ((prevRoomId != ap.getRoomId()) || (prevTypeId != ap.getTypeId())) {
                     prevRoomId = ap.getRoomId();
                     prevTypeId = ap.getTypeId();
-                    headerString = mDbHelper.getRoomNameByPrimaryKey(prevRoomId);
+                    headerString = mDbHelper.getRoomByPrimaryKey(prevRoomId);
                     headerString += " " + eType.getName();
                     frequentlyUsedArrayList.add(headerString);
                 }

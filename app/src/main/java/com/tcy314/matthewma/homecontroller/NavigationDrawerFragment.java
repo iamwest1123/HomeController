@@ -4,8 +4,6 @@ package com.tcy314.matthewma.homecontroller;
 import android.app.Activity;
 import android.app.ActionBar;
 import android.app.Fragment;
-import android.database.Cursor;
-import android.support.annotation.NonNull;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -24,10 +22,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
 
 /**
  * Fragment used for managing interactions for and presentation of a navigation drawer.
@@ -110,8 +104,8 @@ public class NavigationDrawerFragment extends Fragment {
         });
 
         navigationDrawerItemsList.clear();
-        for (int i = 1; mDbHelper.getRoomNameByPrimaryKey(i) != null; i++) {
-            navigationDrawerItemsList.add(mDbHelper.getRoomNameByPrimaryKey(i));
+        for (int i = 1; mDbHelper.getRoomByPrimaryKey(i) != null; i++) {
+            navigationDrawerItemsList.add(mDbHelper.getRoomByPrimaryKey(i));
         }
 
         mDrawerListView.setAdapter(new ArrayAdapter<>(

@@ -145,7 +145,7 @@ public class DbEntry {
     }
 
     public static abstract class BLE {
-        public static final String TABLE_NAME = "TIMER";
+        public static final String TABLE_NAME = "BLE";
         public static final String COLUMN_BLE_ID = "BLE_ID";
         public static final String COLUMN_ADDRESS = "Address";
         public static final String COLUMN_ROOM_ID = "RoomID";

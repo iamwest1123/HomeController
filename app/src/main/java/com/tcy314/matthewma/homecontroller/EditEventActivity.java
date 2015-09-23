@@ -31,15 +31,19 @@ import java.util.Locale;
 public class EditEventActivity extends Activity {
     public final static String TITLE = "com.tcy314.editeventactivity.title";
     public final static String APPLIANCE = "com.tcy314.editeventactivity.appliance";
+    public final static String EVENT_ID = "com.tcy314.editeventactivity.eventid";
     public final static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("E, d MMM yyyy", Locale.UK);
     public final static SimpleDateFormat TIME_FORMAT = new SimpleDateFormat("kk:mm", Locale.UK);
     private static ControllerDbHelper mDbHelper;
     private Appliance appliance;
+    // TODO use this event to set new event
+    private Event event;
     private ElectronicType eType;
     private static Calendar startCalendar;
     private static Calendar endCalendar;
     private static Calendar untilCalendar;
     private boolean endTimeAdded = false;
+    private boolean isEditingEvent;
     private int startState = DbEntry.Appliance.STATE_NOT_SET;
     private int endState = DbEntry.Appliance.STATE_NOT_SET;
     private int repeatOption = DbEntry.Event.REPEAT_NEVER;
@@ -62,9 +66,20 @@ public class EditEventActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mDbHelper = new ControllerDbHelper(this);
+        // setup event, appliance, eType
+        String titleString = getIntent().getStringExtra(TITLE);
         int[] apArray = getIntent().getIntArrayExtra(APPLIANCE);
-        appliance = mDbHelper.getApplianceByPrimaryKey(new Appliance.PrimaryKey(apArray[0],apArray[1]));
-        eType = mDbHelper.getElectronicTypeByPrimaryKey(appliance.getTypeId());
+        int eventId = getIntent().getIntExtra(EVENT_ID, -1);
+        isEditingEvent = titleString.equals(getString(R.string.edit_event));
+        if (isEditingEvent) {
+            event = mDbHelper.getEventByPrimaryKey(eventId);
+            appliance = mDbHelper.getApplianceByPrimaryKey(event.getAppk());
+            eType = mDbHelper.getElectronicTypeByPrimaryKey(appliance.getTypeId());
+        }
+        else {  // add new event
+            appliance = mDbHelper.getApplianceByPrimaryKey(new Appliance.PrimaryKey(apArray[0],apArray[1]));
+            eType = mDbHelper.getElectronicTypeByPrimaryKey(appliance.getTypeId());
+        }
 
 
         final LayoutInflater inflater = (LayoutInflater) getActionBar().getThemedContext()
@@ -75,6 +90,7 @@ public class EditEventActivity extends Activity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        // TODO: edit / new event
                         ContentValues values;
                         values = DbEntry.Event.put(et_title.getText().toString(),
                                 appliance.getPrimaryKey(),
@@ -84,13 +100,12 @@ public class EditEventActivity extends Activity {
                         );
                         mDbHelper.getWritableDatabase().insert(
                                 DbEntry.Event.TABLE_NAME, null, values);
-                        // "Save"
                         finish();
                     }
                 });
 
         TextView actionbarTitle = (TextView) customActionBarView.findViewById(R.id.edit_event_actionbar_title);
-        actionbarTitle.setText(getIntent().getStringExtra(TITLE));
+        actionbarTitle.setText(titleString);
 
         // Show the custom action bar view and hide the normal Home icon and title.
         final ActionBar actionBar = getActionBar();
@@ -105,12 +120,7 @@ public class EditEventActivity extends Activity {
                         ViewGroup.LayoutParams.MATCH_PARENT));
         // END_INCLUDE (inflate_set_custom_view)
 
-
         setContentView(R.layout.event_edit_main);
-        startCalendar = Calendar.getInstance();
-        endCalendar = Calendar.getInstance();
-        untilCalendar = Calendar.getInstance();
-
 
         ll_main = (LinearLayout) findViewById(R.id.event_edit_ll_main);
         ll_addEndTime = (LinearLayout) findViewById(R.id.event_edit_ll_addEndTime);
@@ -126,20 +136,22 @@ public class EditEventActivity extends Activity {
         div_endDateTime = (View) findViewById(R.id.event_edit_divider_endDateTime);
         et_title = (EditText) findViewById(R.id.event_edit_et_title);
 
-        String dateString = DATE_FORMAT.format(startCalendar.getTime());
-        String timeString = TIME_FORMAT.format(startCalendar.getTime());
-        tv_startDate.setText(dateString);
-        tv_startTime.setText(timeString);
-        tv_endDate.setText(dateString);
-        tv_endTime.setText(timeString);
-        tv_untilDate.setText(dateString);
-
+        // set status button and end time
         switch (eType.getButtonType()) {
             case ElectronicType.TOGGLE_BUTTON:
             case ElectronicType.SWITCH:
                 startLayout = inflater.inflate(R.layout.event_edit_switch, null);
                 Switch startView = (Switch) startLayout.findViewById(R.id.event_edit_switch);
                 startView.setText("Set " + appliance.getName());
+                if (isEditingEvent)
+                    if (event.getStartState() == DbEntry.Appliance.STATE_ON) {
+                        startState = DbEntry.Appliance.STATE_ON;
+                        startView.setChecked(true);
+                    }
+                    else {
+                        startState = DbEntry.Appliance.STATE_OFF;
+                        startView.setChecked(false);
+                    }
                 startView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -155,7 +167,6 @@ public class EditEventActivity extends Activity {
                 break;
             default: break;
         }
-
         tv_addEndTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -169,6 +180,15 @@ public class EditEventActivity extends Activity {
                         endLayout = inflater.inflate(R.layout.event_edit_switch, null);
                         Switch endView = (Switch) endLayout.findViewById(R.id.event_edit_switch);
                         endView.setText("Set " + appliance.getName());
+                        if (isEditingEvent)
+                            if (event.getStartState() == DbEntry.Appliance.STATE_ON) {
+                                startState = DbEntry.Appliance.STATE_ON;
+                                endView.setChecked(true);
+                            }
+                            else {
+                                startState = DbEntry.Appliance.STATE_OFF;
+                                endView.setChecked(false);
+                            }
                         endView.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -186,6 +206,30 @@ public class EditEventActivity extends Activity {
                 }
             }
         });
+
+        // setup calendar
+        startCalendar = Calendar.getInstance();
+        endCalendar = Calendar.getInstance();
+        untilCalendar = Calendar.getInstance();
+        if (isEditingEvent) {
+            startCalendar = event.getStartTime();
+            if (event.isEndTimeSet()) {
+                endCalendar = event.getEndTime();
+                tv_addEndTime.performClick();
+            }
+            setRepeatOption(event.getRepeatOption());
+            if (event.getRepeatOption() != DbEntry.Event.REPEAT_NEVER) {
+                untilCalendar = event.getUntilTime();
+            }
+        }
+        tv_startDate.setText(DATE_FORMAT.format(startCalendar.getTime()));
+        tv_startTime.setText(TIME_FORMAT.format(startCalendar.getTime()));
+        tv_endDate.setText(DATE_FORMAT.format(endCalendar.getTime()));
+        tv_endTime.setText(TIME_FORMAT.format(endCalendar.getTime()));
+        tv_untilDate.setText(DATE_FORMAT.format(untilCalendar.getTime()));
+
+
+
         tv_startDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -230,32 +274,36 @@ public class EditEventActivity extends Activity {
                     public void onClick(DialogInterface dialog, int which) {
                         // The 'which' argument contains the index position
                         // of the selected item
-                        tv_repeat.setText(getResources().getStringArray(R.array.event_repeat_option)[which]);
-                        switch (which) {
-                            case 0: ll_untilDate.setVisibility(View.GONE);
-                                repeatOption = DbEntry.Event.REPEAT_NEVER;
-                                break;
-                            case 1: ll_untilDate.setVisibility(View.VISIBLE);
-                                repeatOption = DbEntry.Event.REPEAT_EVERY_DAY;
-                                break;
-                            case 2: ll_untilDate.setVisibility(View.VISIBLE);
-                                repeatOption = DbEntry.Event.REPEAT_EVERY_WEEK;
-                                break;
-                            case 3: ll_untilDate.setVisibility(View.VISIBLE);
-                                repeatOption = DbEntry.Event.REPEAT_EVERY_MONTH;
-                                break;
-                            case 4: ll_untilDate.setVisibility(View.VISIBLE);
-                                repeatOption = DbEntry.Event.REPEAT_EVERY_YEAR;
-                                break;
-                            default: ll_untilDate.setVisibility(View.VISIBLE);
-                                break;
-                        }
+                            setRepeatOption(which);
                     }
                 });
                 AlertDialog alert = builder.create();
                 alert.show();
             }
         });
+    }
+
+    private void setRepeatOption(int repeat) {
+        tv_repeat.setText(getResources().getStringArray(R.array.event_repeat_option)[repeat]);
+        switch (repeat) {
+            case 0: ll_untilDate.setVisibility(View.GONE);
+                repeatOption = DbEntry.Event.REPEAT_NEVER;
+                break;
+            case 1: ll_untilDate.setVisibility(View.VISIBLE);
+                repeatOption = DbEntry.Event.REPEAT_EVERY_DAY;
+                break;
+            case 2: ll_untilDate.setVisibility(View.VISIBLE);
+                repeatOption = DbEntry.Event.REPEAT_EVERY_WEEK;
+                break;
+            case 3: ll_untilDate.setVisibility(View.VISIBLE);
+                repeatOption = DbEntry.Event.REPEAT_EVERY_MONTH;
+                break;
+            case 4: ll_untilDate.setVisibility(View.VISIBLE);
+                repeatOption = DbEntry.Event.REPEAT_EVERY_YEAR;
+                break;
+            default: ll_untilDate.setVisibility(View.VISIBLE);
+                break;
+        }
     }
 
     public static class DatePickerFragment extends DialogFragment

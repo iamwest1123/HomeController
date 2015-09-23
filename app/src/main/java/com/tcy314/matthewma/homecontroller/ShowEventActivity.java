@@ -1,13 +1,17 @@
 package com.tcy314.matthewma.homecontroller;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -24,6 +28,7 @@ public class ShowEventActivity extends Activity {
     private Appliance appliance;
     private EventAdapter eventAdapter;
     private ArrayList<Event> arrayList = new ArrayList<>();
+    private Context context;
     private TextView tv_title;
     private TextView tv_startTime;
     private TextView tv_startStatus;
@@ -36,6 +41,7 @@ public class ShowEventActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.event_show_main);
         mDbHelper = new ControllerDbHelper(this);
+        context = this;
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
         int[] apArray = getIntent().getIntArrayExtra(APPLIANCE);
         appliance = mDbHelper.getApplianceByPrimaryKey(new Appliance.PrimaryKey(apArray[0],apArray[1]));
@@ -54,6 +60,35 @@ public class ShowEventActivity extends Activity {
         eventAdapter = new EventAdapter(this);
         ListView lv = (ListView) findViewById(R.id.event_show_lv);
         lv.setAdapter(eventAdapter);
+
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setItems(R.array.event_show_alert_dialog, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // The 'which' argument contains the index position
+                        // of the selected item
+                        Intent intent;
+                        switch (which) {
+                            case 0:
+                                intent = new Intent(context, EditEventActivity.class);
+                                intent.putExtra(EditEventActivity.TITLE, context.getString(R.string.edit_event));
+                                intent.putExtra(EditEventActivity.EVENT_ID, arrayList.get(position).getId());
+                                context.startActivity(intent);
+                                break;
+                            case 1:
+                                // TODO delete event
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                });
+                AlertDialog alert = builder.create();
+                alert.show();
+            }
+        });
     }
 
     public class EventAdapter extends BaseAdapter {
@@ -92,7 +127,7 @@ public class ShowEventActivity extends Activity {
             tv_repeat = (TextView) convertView.findViewById(R.id.event_show_tv_repeat);
             ll_end = (LinearLayout) convertView.findViewById(R.id.event_show_ll_end);
 
-            tv_title.setText(event.getName());
+            tv_title.setText(event.getTitle());
             tv_startTime.setText(event.getStartTimeInString());
             tv_endTime.setText(event.getEndTimeInString());
             switch (event.getStartState())

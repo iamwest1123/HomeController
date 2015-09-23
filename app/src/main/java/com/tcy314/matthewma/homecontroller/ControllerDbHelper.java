@@ -124,4 +124,20 @@ public class ControllerDbHelper extends SQLiteOpenHelper {
         cursor.close();
         return null;
     }
+
+    public Event getEventByPrimaryKey(int id) {
+        db = this.getWritableDatabase();
+        Cursor cursor = db.query(DbEntry.Event.TABLE_NAME,
+                DbEntry.Event.SELECT_ALL,
+                DbEntry.Event.COLUMN_ID + " =?",
+                new String[]{String.valueOf(id)},
+                null, null, null);
+        if (cursor.moveToFirst()) {
+            // write back to map
+            Event result = new Event(cursor);
+            cursor.close();
+            return result;
+        }
+        return null;
+    }
 }

@@ -12,8 +12,9 @@ import java.util.Locale;
 public class Event {
     public final static SimpleDateFormat DATE_TIME_FORMAT = new SimpleDateFormat("E, d MMM yyyy kk:mm", Locale.UK);
     public final static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("E, d MMM yyyy", Locale.UK);
+    public final static SimpleDateFormat TIME_FORMAT = new SimpleDateFormat("kk:mm", Locale.UK);
     private int id;
-    private String name;
+    private String title;
     private Appliance.PrimaryKey appk;
     private Calendar startTime;
     private Calendar endTime;
@@ -22,20 +23,40 @@ public class Event {
     private int endState;
     private int repeatOption;
 
+    public Event () {
+        this.startTime = Calendar.getInstance();
+        this.endTime = Calendar.getInstance();
+        this.untilTime = Calendar.getInstance();
+    }
+
+    public Event (int id, String title, Appliance.PrimaryKey appk,
+                  long startTime, long endTime, long untilTime,
+                  int startState, int endState, int repeatOption) {
+        this();
+        this.id = id;
+        this.title = title;
+        this.appk = appk;
+        this.startTime.setTimeInMillis(startTime);
+        this.endTime.setTimeInMillis(endTime);
+        this.untilTime.setTimeInMillis(untilTime);
+        this.startState = startState;
+        this.endState = endState;
+        this.repeatOption = repeatOption;
+    }
+
     public Event (Cursor c) {
-        this.id = c.getInt(c.getColumnIndex(DbEntry.Event.COLUMN_ID));
-        this.name = c.getString(c.getColumnIndex(DbEntry.Event.COLUMN_TITLE));
-        this.appk = new Appliance.PrimaryKey(c.getInt(c.getColumnIndex(DbEntry.Event.COLUMN_BLE_ID)),
-                c.getInt(c.getColumnIndex(DbEntry.Event.COLUMN_PORT_ID)));
-        startTime = Calendar.getInstance();
-        endTime = Calendar.getInstance();
-        untilTime = Calendar.getInstance();
-        this.startTime.setTimeInMillis(c.getLong(c.getColumnIndex(DbEntry.Event.COLUMN_START)));
-        this.endTime.setTimeInMillis(c.getLong(c.getColumnIndex(DbEntry.Event.COLUMN_END)));
-        this.untilTime.setTimeInMillis(c.getLong(c.getColumnIndex(DbEntry.Event.COLUMN_UNTIL)));
-        this.startState = c.getInt(c.getColumnIndex(DbEntry.Event.COLUMN_START_STATE));
-        this.endState = c.getInt(c.getColumnIndex(DbEntry.Event.COLUMN_END_STATE));
-        this.repeatOption = c.getInt(c.getColumnIndex(DbEntry.Event.COLUMN_REPEAT_OPTION));
+        this(
+                c.getInt(c.getColumnIndex(DbEntry.Event.COLUMN_ID)),
+                c.getString(c.getColumnIndex(DbEntry.Event.COLUMN_TITLE)),
+                new Appliance.PrimaryKey(c.getInt(c.getColumnIndex(DbEntry.Event.COLUMN_BLE_ID)),
+                        c.getInt(c.getColumnIndex(DbEntry.Event.COLUMN_PORT_ID))),
+                c.getLong(c.getColumnIndex(DbEntry.Event.COLUMN_START)),
+                c.getLong(c.getColumnIndex(DbEntry.Event.COLUMN_END)),
+                c.getLong(c.getColumnIndex(DbEntry.Event.COLUMN_UNTIL)),
+                c.getInt(c.getColumnIndex(DbEntry.Event.COLUMN_START_STATE)),
+                c.getInt(c.getColumnIndex(DbEntry.Event.COLUMN_END_STATE)),
+                c.getInt(c.getColumnIndex(DbEntry.Event.COLUMN_REPEAT_OPTION))
+                );
     }
 
     public boolean isEndTimeSet() {
@@ -45,8 +66,8 @@ public class Event {
     public int getId() {
         return id;
     }
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
     public Appliance.PrimaryKey getAppk() {
         return appk;
@@ -77,5 +98,34 @@ public class Event {
     }
     public int getRepeatOption() {
         return repeatOption;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+    public void setAppk(Appliance.PrimaryKey appk) {
+        this.appk = appk;
+    }
+    public void setStartTime(Calendar startTime) {
+        this.startTime = startTime;
+    }
+    public void setEndTime(Calendar endTime) {
+        this.endTime = endTime;
+    }
+    public void setUntilTime(Calendar untilTime) {
+        this.untilTime = untilTime;
+    }
+    public void setStartState(int startState) {
+        this.startState = startState;
+    }
+    public void setEndState(int endState) {
+        this.endState = endState;
+    }
+    public void setRepeatOption(int repeatOption) {
+        this.repeatOption = repeatOption;
     }
 }

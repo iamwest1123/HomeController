@@ -5,12 +5,14 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.app.DialogFragment;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +22,12 @@ import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
+
+import com.tcy314.matthewma.homecontroller.DatabaseAndClass.Appliance;
+import com.tcy314.matthewma.homecontroller.DatabaseAndClass.ControllerDbHelper;
+import com.tcy314.matthewma.homecontroller.DatabaseAndClass.DbEntry;
+import com.tcy314.matthewma.homecontroller.DatabaseAndClass.ElectronicType;
+import com.tcy314.matthewma.homecontroller.DatabaseAndClass.Event;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -32,14 +40,12 @@ public class EditEventActivity extends Activity {
     public final static String TITLE = "com.tcy314.editeventactivity.title";
     public final static String APPLIANCE = "com.tcy314.editeventactivity.appliance";
     public final static String EVENT_ID = "com.tcy314.editeventactivity.eventid";
-    public final static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("E, d MMM yyyy", Locale.UK);
-    public final static SimpleDateFormat TIME_FORMAT = new SimpleDateFormat("kk:mm", Locale.UK);
+    public final static SimpleDateFormat DATE_FORMAT = Event.DATE_FORMAT;
+    public final static SimpleDateFormat TIME_FORMAT = Event.TIME_FORMAT;
     private static ControllerDbHelper mDbHelper;
     private Appliance appliance;
-    // TODO use this event to set new event
     private static Event event;
     private ElectronicType eType;
-    private boolean endTimeAdded = false;
     private boolean isEditingEvent;
     private LinearLayout ll_main;
     private LinearLayout ll_addEndTime;
@@ -60,10 +66,10 @@ public class EditEventActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mDbHelper = new ControllerDbHelper(this);
-        // setup event, appliance, eType
+        // set event, appliance, eType
         String titleString = getIntent().getStringExtra(TITLE);
         int[] apArray = getIntent().getIntArrayExtra(APPLIANCE);
-        int eventId = getIntent().getIntExtra(EVENT_ID, -1);
+        final int eventId = getIntent().getIntExtra(EVENT_ID, -1);
         isEditingEvent = titleString.equals(getString(R.string.edit_event));
         if (isEditingEvent) {
             event = mDbHelper.getEventByPrimaryKey(eventId);
@@ -87,16 +93,19 @@ public class EditEventActivity extends Activity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        // TODO: edit / new event
                         ContentValues values;
                         String title = et_title.getText().toString();
                         event.setTitle(title);
                         values = DbEntry.Event.put(event);
                         if (isEditingEvent) {
                             mDbHelper.updateEventByPrimaryKey(event.getId(), values);
+                            MainActivity.alarm.update(event);
                         } else {
-                            mDbHelper.getWritableDatabase().insert(
+                            int eventId = (int) mDbHelper.getWritableDatabase().insert(
                                     DbEntry.Event.TABLE_NAME, null, values);
+                            Log.i("Event added", "ID: " + String.valueOf(eventId));
+                            event.setId(eventId);
+                            MainActivity.alarm.set(event);
                         }
                         finish();
                     }
@@ -168,7 +177,12 @@ public class EditEventActivity extends Activity {
         tv_addEndTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                endTimeAdded = true;
+                if (!isEditingEvent) {
+                    event.setEndCalendar(Calendar.getInstance());
+                    event.getEndCalendar().set(Calendar.SECOND,0);
+                }
+                tv_endDate.setText(DATE_FORMAT.format(event.getEndCalendar().getTime()));
+                tv_endTime.setText(TIME_FORMAT.format(event.getEndCalendar().getTime()));
                 ll_addEndTime.setVisibility(View.GONE);
                 ll_endDateTime.setVisibility(View.VISIBLE);
                 div_endDateTime.setVisibility(View.VISIBLE);
@@ -202,7 +216,7 @@ public class EditEventActivity extends Activity {
             }
         });
 
-        // setup calendar
+        // set calendar
         if (isEditingEvent) {
             if (event.isEndTimeSet()) {
                 tv_addEndTime.performClick();
@@ -211,8 +225,8 @@ public class EditEventActivity extends Activity {
         }
         tv_startDate.setText(DATE_FORMAT.format(event.getStartCalendar().getTime()));
         tv_startTime.setText(TIME_FORMAT.format(event.getStartCalendar().getTime()));
-        tv_endDate.setText(DATE_FORMAT.format(event.getEndCalendar().getTime()));
-        tv_endTime.setText(TIME_FORMAT.format(event.getEndCalendar().getTime()));
+        // tv_endDate, tv_endTime is set in tv_addEndTime.setOnClickListener
+        // TODO maybe should move until date away too
         tv_untilDate.setText(DATE_FORMAT.format(event.getUntilCalendar().getTime()));
 
 
@@ -295,6 +309,14 @@ public class EditEventActivity extends Activity {
             default: ll_untilDate.setVisibility(View.VISIBLE);
                 break;
         }
+    }
+
+    public void setupAlarm(final long eventId) {
+        // TODO
+
+    }
+    public void deleteAlarm(final long eventId) {
+        // TODO
     }
 
     public static class DatePickerFragment extends DialogFragment

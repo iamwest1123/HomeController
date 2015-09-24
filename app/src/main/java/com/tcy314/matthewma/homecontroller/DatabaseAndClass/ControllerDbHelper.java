@@ -1,4 +1,4 @@
-package com.tcy314.matthewma.homecontroller;
+package com.tcy314.matthewma.homecontroller.DatabaseAndClass;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -238,4 +238,5 @@ public class ControllerDbHelper extends SQLiteOpenHelper {
                 new String[]{String.valueOf(roomId)});
         return (result != 0);
     }
+
 }

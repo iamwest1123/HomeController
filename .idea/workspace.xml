@@ -6,7 +6,7 @@
         <option name="logLevel" value="verbose" />
         <option name="logMessagePattern" value="" />
         <option name="logTagPattern" value="" />
-        <option name="name" value="Unnamed-0" />
+        <option name="name" value="Controller" />
         <option name="packageNamePattern" value="com.tcy314.matthewma.homecontroller" />
         <option name="pid" value="" />
       </filter>
@@ -46,7 +46,7 @@
   </component>
   <component name="AndroidLogFilters">
     <option name="TOOL_WINDOW_LOG_LEVEL" value="INFO" />
-    <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Unnamed-0" />
+    <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Controller" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7fd81f5c-bb93-4f89-a44d-6ca29a38f2f1" name="Default" comment="" />
@@ -75,88 +75,123 @@
     <favorites_list name="Home Controller" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.5">
-      <split-first>
-        <leaf>
-          <file leaf-file-name="DbEntry.java" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/app/src/main/java/com/tcy314/matthewma/homecontroller/DbEntry.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.0">
-                  <caret line="153" column="35" selection-start-line="153" selection-start-column="35" selection-end-line="153" selection-end-column="35" />
-                  <folding>
-                    <element signature="imports" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="BLE.java" pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/app/src/main/java/com/tcy314/matthewma/homecontroller/BLE.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.13745704">
-                  <caret line="7" column="18" selection-start-line="7" selection-start-column="18" selection-end-line="7" selection-end-column="18" />
-                  <folding>
-                    <element signature="docComment;class#BLE#0" expanded="false" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-        </leaf>
-      </split-first>
-      <split-second>
-        <leaf>
-          <file leaf-file-name="Event.java" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/app/src/main/java/com/tcy314/matthewma/homecontroller/Event.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.0">
-                  <caret line="70" column="5" selection-start-line="70" selection-start-column="5" selection-end-line="70" selection-end-column="5" />
-                  <folding>
-                    <element signature="docComment;class#Event#0" expanded="false" />
-                    <element signature="method#getStartCalendarInString#0;class#Event#0" expanded="false" />
-                    <element signature="method#getEndCalendarInString#0;class#Event#0" expanded="false" />
-                    <element signature="method#getUntilCalendarInString#0;class#Event#0" expanded="false" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="ControllerDbHelper.java" pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/app/src/main/java/com/tcy314/matthewma/homecontroller/ControllerDbHelper.java">
-              <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.6323024">
-                  <caret line="119" column="28" selection-start-line="119" selection-start-column="28" selection-end-line="119" selection-end-column="28" />
-                  <folding>
-                    <element signature="docComment;class#ControllerDbHelper#0" expanded="false" />
-                    <element signature="method#ControllerDbHelper#0;class#ControllerDbHelper#0" expanded="false" />
-                    <element signature="method#onCreate#0;class#ControllerDbHelper#0" expanded="false" />
-                    <element signature="method#DropAddTable#0;class#ControllerDbHelper#0" expanded="false" />
-                    <element signature="method#getApplianceByPrimaryKey#0;class#ControllerDbHelper#0" expanded="false" />
-                    <element signature="method#getApplianceByPrimaryKey#1;class#ControllerDbHelper#0" expanded="false" />
-                    <element signature="method#getBleByPrimaryKey#0;class#ControllerDbHelper#0" expanded="false" />
-                    <element signature="method#getElectronicTypeByPrimaryKey#0;class#ControllerDbHelper#0" expanded="false" />
-                    <element signature="method#getEventByPrimaryKey#0;class#ControllerDbHelper#0" expanded="false" />
-                    <element signature="method#getRoomByPrimaryKey#0;class#ControllerDbHelper#0" expanded="false" />
-                    <element signature="method#updateApplianceByPrimaryKey#0;class#ControllerDbHelper#0" expanded="false" />
-                    <element signature="method#updateApplianceByPrimaryKey#1;class#ControllerDbHelper#0" expanded="false" />
-                    <element signature="method#updateBleByPrimaryKey#0;class#ControllerDbHelper#0" expanded="false" />
-                    <element signature="method#updateElectronicTypeByPrimaryKey#0;class#ControllerDbHelper#0" expanded="false" />
-                    <element signature="method#updateEventByPrimaryKey#0;class#ControllerDbHelper#0" expanded="false" />
-                    <element signature="method#updateRoomByPrimaryKey#0;class#ControllerDbHelper#0" expanded="false" />
-                    <element signature="method#deleteApplianceByPrimaryKey#0;class#ControllerDbHelper#0" expanded="false" />
-                    <element signature="method#deleteApplianceByPrimaryKey#1;class#ControllerDbHelper#0" expanded="false" />
-                    <element signature="method#deleteBleByPrimaryKey#0;class#ControllerDbHelper#0" expanded="false" />
-                    <element signature="method#deleteElectronicTypeByPrimaryKey#0;class#ControllerDbHelper#0" expanded="false" />
-                    <element signature="method#deleteEventByPrimaryKey#0;class#ControllerDbHelper#0" expanded="false" />
-                    <element signature="method#deleteRoomByPrimaryKey#0;class#ControllerDbHelper#0" expanded="false" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-        </leaf>
-      </split-second>
-    </splitter>
+    <leaf>
+      <file leaf-file-name="Event.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/tcy314/matthewma/homecontroller/DatabaseAndClass/Event.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="10" column="3" selection-start-line="10" selection-start-column="3" selection-end-line="10" selection-end-column="3" />
+              <folding>
+                <element signature="docComment;class#Event#0" expanded="false" />
+                <element signature="method#Event#0;class#Event#0" expanded="false" />
+                <element signature="method#getStartCalendarInString#0;class#Event#0" expanded="false" />
+                <element signature="method#getEndCalendarInString#0;class#Event#0" expanded="false" />
+                <element signature="method#getUntilCalendarInString#0;class#Event#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AlarmReceiver.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/tcy314/matthewma/homecontroller/AlarmReceiver.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="19" column="59" selection-start-line="19" selection-start-column="59" selection-end-line="19" selection-end-column="59" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="EditEventActivity.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/tcy314/matthewma/homecontroller/EditEventActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="182" column="17" selection-start-line="182" selection-start-column="17" selection-end-line="182" selection-end-column="17" />
+              <folding>
+                <element signature="docComment;class#EditEventActivity#0" expanded="false" />
+                <element signature="e#8222#10391#0" expanded="true" />
+                <element signature="e#10390#10391#0" expanded="true" />
+                <element signature="e#11045#11338#0" expanded="true" />
+                <element signature="e#11337#11338#0" expanded="true" />
+                <element signature="e#11379#11670#0" expanded="true" />
+                <element signature="e#11669#11670#0" expanded="true" />
+                <element signature="e#11713#12006#0" expanded="true" />
+                <element signature="e#12005#12006#0" expanded="true" />
+                <element signature="e#12049#12342#0" expanded="true" />
+                <element signature="e#12341#12342#0" expanded="true" />
+                <element signature="e#12383#12674#0" expanded="true" />
+                <element signature="e#12673#12674#0" expanded="true" />
+                <element signature="e#12715#13418#0" expanded="true" />
+                <element signature="e#13117#13168#0" expanded="false" />
+                <element signature="e#13417#13418#0" expanded="true" />
+                <element signature="method#newInstance#0;class#DatePickerFragment#0;class#EditEventActivity#0" expanded="false" />
+                <element signature="method#onCreateDialog#0;class#DatePickerFragment#0;class#EditEventActivity#0" expanded="false" />
+                <element signature="method#onDateSet#0;class#DatePickerFragment#0;class#EditEventActivity#0" expanded="false" />
+                <element signature="class#TimePickerFragment#0;class#EditEventActivity#0" expanded="false" />
+                <element signature="method#newInstance#0;class#TimePickerFragment#0;class#EditEventActivity#0" expanded="false" />
+                <element signature="method#onCreateDialog#0;class#TimePickerFragment#0;class#EditEventActivity#0" expanded="false" />
+                <element signature="method#onTimeSet#0;class#TimePickerFragment#0;class#EditEventActivity#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MainActivity.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/tcy314/matthewma/homecontroller/MainActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="62" column="17" selection-start-line="62" selection-start-column="17" selection-end-line="62" selection-end-column="17" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Alarm.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/tcy314/matthewma/homecontroller/Alarm.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.23518164">
+              <caret line="82" column="83" selection-start-line="82" selection-start-column="83" selection-end-line="82" selection-end-column="83" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AndroidManifest.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="14" column="35" selection-start-line="14" selection-start-column="35" selection-end-line="14" selection-end-column="35" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ShowEventActivity.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/tcy314/matthewma/homecontroller/ShowEventActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="144" column="53" selection-start-line="144" selection-start-column="53" selection-end-line="144" selection-end-column="53" />
+              <folding>
+                <element signature="docComment;class#ShowEventActivity#0" expanded="false" />
+                <element signature="method#onCreate#0;class#ShowEventActivity#0" expanded="false" />
+                <element signature="e#3338#3389#0" expanded="false" />
+                <element signature="method#onResume#0;class#ShowEventActivity#0" expanded="false" />
+                <element signature="method#updateEventList#0;class#ShowEventActivity#0" expanded="false" />
+                <element signature="method#StartEditActivity#0;class#ShowEventActivity#0" expanded="false" />
+                <element signature="e#6561#6589#0" expanded="false" />
+                <element signature="class#EventAdapter#0;class#ShowEventActivity#0" expanded="false" />
+                <element signature="method#EventAdapter#0;class#EventAdapter#0;class#ShowEventActivity#0" expanded="false" />
+                <element signature="method#getView#0;class#EventAdapter#0;class#ShowEventActivity#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -1588,13 +1623,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/app/src/main/res/menu/global.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/snippet_item1.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/tcy314/matthewma/homecontroller/CustomAdapter.java" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/my_list_item.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/tcy314/matthewma/homecontroller/Item.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/tcy314/matthewma/homecontroller/Header.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/tcy314/matthewma/homecontroller/TwoTextArrayAdapter.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/switches.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/tcy314/matthewma/homecontroller/Switches.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/tcy314/matthewma/homecontroller/SwitchesAdapter.java" />
@@ -1626,19 +1654,26 @@
         <option value="$PROJECT_DIR$/app/src/main/res/layout/event_display.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/event_show_layout.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/tcy314/matthewma/homecontroller/Appliance.java" />
-        <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/tcy314/matthewma/homecontroller/ApplianceAdapter.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/tcy314/matthewma/homecontroller/Event.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/tcy314/matthewma/homecontroller/EditEventActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/tcy314/matthewma/homecontroller/ShowEventActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/tcy314/matthewma/homecontroller/NavigationDrawerFragment.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/tcy314/matthewma/homecontroller/MainActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/tcy314/matthewma/homecontroller/AddDeviceDialogFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/tcy314/matthewma/homecontroller/DbEntry.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/tcy314/matthewma/homecontroller/BluetoothLE.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/tcy314/matthewma/homecontroller/BLE.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/tcy314/matthewma/homecontroller/ControllerDbHelper.java" />
+        <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/tcy314/matthewma/homecontroller/DeviceBootReceiver.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/tcy314/matthewma/homecontroller/EventAlarmReceiver.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/tcy314/matthewma/homecontroller/ＡlarmReceiver.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/tcy314/matthewma/homecontroller/DatabaseAndClass/ControllerDbHelper.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/tcy314/matthewma/homecontroller/ShowEventActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/tcy314/matthewma/homecontroller/MainActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/tcy314/matthewma/homecontroller/AlarmReceiver.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/tcy314/matthewma/homecontroller/DatabaseAndClass/Event.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/tcy314/matthewma/homecontroller/EditEventActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/tcy314/matthewma/homecontroller/Alarm.java" />
       </list>
     </option>
   </component>
@@ -1674,10 +1709,8 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scratches" />
-      <pane id="ProjectPane" />
-      <pane id="Scope" />
       <pane id="PackagesPane" />
+      <pane id="Scope" />
       <pane id="AndroidView">
         <subPane>
           <PATH>
@@ -1694,6 +1727,10 @@
             <PATH_ELEMENT>
               <option name="myItemId" value="app" />
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderNode" />
             </PATH_ELEMENT>
           </PATH>
           <PATH>
@@ -1728,8 +1765,46 @@
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Home Controller" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="homecontroller" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="DatabaseAndClass" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Home Controller" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="manifests" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidManifestsGroupNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
+      <pane id="Scratches" />
+      <pane id="ProjectPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -1965,26 +2040,26 @@
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.31309903" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3248337" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.28824833" sideWeight="0.5021322" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32815966" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.36807096" sideWeight="0.5042644" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.15671642" sideWeight="0.50512445" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.30044347" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.30155212" sideWeight="0.4978678" order="12" side_tool="false" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32731378" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3880266" sideWeight="0.49573562" order="12" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32705098" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.19296375" sideWeight="0.49487555" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32222223" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32372504" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32995737" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32815966" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
@@ -2002,7 +2077,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="203" />
+      <option name="time" value="215" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="app">
@@ -2013,27 +2088,6 @@
     </watches-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$USER_HOME$/AppData/Local/Android/sdk/sources/android-22/android/text/TextUtils.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="463" column="0" selection-start-line="463" selection-start-column="0" selection-end-line="463" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/AppData/Local/Android/sdk/sources/android-22/android/database/sqlite/SQLiteQueryBuilder.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="218" column="0" selection-start-line="218" selection-start-column="0" selection-end-line="218" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/tcy314/matthewma/homecontroller/TwoColumnAppliance.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="23" column="14" selection-start-line="23" selection-start-column="14" selection-end-line="23" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/AppData/Local/Android/sdk/sources/android-22/android/app/Dialog.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -2196,7 +2250,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="7" column="36" selection-start-line="7" selection-start-column="17" selection-end-line="7" selection-end-column="36" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2204,7 +2257,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.3132137">
           <caret line="8" column="62" selection-start-line="8" selection-start-column="62" selection-end-line="8" selection-end-column="62" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2248,7 +2300,7 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/header.xml">
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/header_appliance_adapter.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0569395">
           <caret line="2" column="34" selection-start-line="2" selection-start-column="34" selection-end-line="2" selection-end-column="34" />
@@ -2294,7 +2346,7 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/tcy314/matthewma/homecontroller/Appliance.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/tcy314/matthewma/homecontroller/DatabaseAndClass/Appliance.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.39206535">
           <caret line="20" column="33" selection-start-line="20" selection-start-column="33" selection-end-line="20" selection-end-column="33" />
@@ -2302,7 +2354,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/event_show_layout.xml">
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/event_show_row.xml">
       <provider editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="12" column="17" selection-start-line="12" selection-start-column="17" selection-end-line="12" selection-end-column="17" />
@@ -2311,14 +2363,6 @@
       </provider>
       <provider selected="true" editor-type-id="android-designer">
         <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="27" column="50" selection-start-line="27" selection-start-column="50" selection-end-line="27" selection-end-column="50" />
-          <folding />
-        </state>
       </provider>
     </entry>
     <entry file="file://$USER_HOME$/AppData/Local/Android/sdk/sources/android-22/android/app/ActivityThread.java">
@@ -2350,76 +2394,11 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/tcy314/matthewma/homecontroller/ElectronicType.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/tcy314/matthewma/homecontroller/DatabaseAndClass/ElectronicType.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="7" column="7" selection-start-line="7" selection-start-column="7" selection-end-line="7" selection-end-column="7" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/AppData/Local/Android/sdk/sources/android-22/android/database/sqlite/SQLiteDatabase.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.08318891">
-          <caret line="1492" column="70" selection-start-line="1492" selection-start-column="70" selection-end-line="1492" selection-end-column="70" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/tcy314/matthewma/homecontroller/ShowEventActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="144" column="71" selection-start-line="144" selection-start-column="71" selection-end-line="144" selection-end-column="71" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#3033#3729#0" expanded="true" />
-            <element signature="e#3728#3729#0" expanded="true" />
-            <element signature="e#4926#4964#0" expanded="true" />
-            <element signature="e#5301#5330#0" expanded="true" />
-            <element signature="e#5367#5382#0" expanded="true" />
-            <element signature="e#5384#6068#0" expanded="true" />
-            <element signature="e#6067#6068#0" expanded="true" />
-            <element signature="e#6105#6120#0" expanded="true" />
-            <element signature="e#6122#6366#0" expanded="true" />
-            <element signature="e#6365#6366#0" expanded="true" />
-            <element signature="class#EventAdapter#0;class#ShowEventActivity#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/tcy314/matthewma/homecontroller/EditEventActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.25773194">
-          <caret line="70" column="43" selection-start-line="70" selection-start-column="43" selection-end-line="70" selection-end-column="43" />
-          <folding>
-            <element signature="docComment;class#EditEventActivity#0" expanded="false" />
-            <element signature="e#3568#4358#0" expanded="true" />
-            <element signature="e#4357#4358#0" expanded="true" />
-            <element signature="e#7710#9546#0" expanded="true" />
-            <element signature="e#9545#9546#0" expanded="true" />
-            <element signature="e#10235#10528#0" expanded="true" />
-            <element signature="e#10527#10528#0" expanded="true" />
-            <element signature="e#10569#10860#0" expanded="true" />
-            <element signature="e#10859#10860#0" expanded="true" />
-            <element signature="e#10903#11196#0" expanded="true" />
-            <element signature="e#11195#11196#0" expanded="true" />
-            <element signature="e#11239#11532#0" expanded="true" />
-            <element signature="e#11531#11532#0" expanded="true" />
-            <element signature="e#11573#11864#0" expanded="true" />
-            <element signature="e#11863#11864#0" expanded="true" />
-            <element signature="e#11905#12608#0" expanded="true" />
-            <element signature="e#12307#12358#0" expanded="false" />
-            <element signature="e#12607#12608#0" expanded="true" />
-            <element signature="method#setRepeatOption#0;class#EditEventActivity#0" expanded="false" />
-            <element signature="class#DatePickerFragment#0;class#EditEventActivity#0" expanded="false" />
-            <element signature="method#newInstance#0;class#DatePickerFragment#0;class#EditEventActivity#0" expanded="false" />
-            <element signature="method#onCreateDialog#0;class#DatePickerFragment#0;class#EditEventActivity#0" expanded="false" />
-            <element signature="method#onDateSet#0;class#DatePickerFragment#0;class#EditEventActivity#0" expanded="false" />
-            <element signature="class#TimePickerFragment#0;class#EditEventActivity#0" expanded="false" />
-            <element signature="method#newInstance#0;class#TimePickerFragment#0;class#EditEventActivity#0" expanded="false" />
-            <element signature="method#onCreateDialog#0;class#TimePickerFragment#0;class#EditEventActivity#0" expanded="false" />
-            <element signature="method#onTimeSet#0;class#TimePickerFragment#0;class#EditEventActivity#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -2447,14 +2426,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/tcy314/matthewma/homecontroller/MainActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="296" column="37" selection-start-line="296" selection-start-column="37" selection-end-line="296" selection-end-column="37" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/tcy314/matthewma/homecontroller/AddDeviceDialogFragment.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-0.02749141">
@@ -2463,33 +2434,38 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/tcy314/matthewma/homecontroller/DbEntry.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/tcy314/matthewma/homecontroller/DatabaseAndClass/BLE.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="153" column="35" selection-start-line="153" selection-start-column="35" selection-end-line="153" selection-end-column="35" />
+        <state vertical-scroll-proportion="0.13745704">
+          <caret line="7" column="18" selection-start-line="7" selection-start-column="18" selection-end-line="7" selection-end-column="18" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="docComment;class#BLE#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/tcy314/matthewma/homecontroller/Event.java">
+    <entry file="file://$USER_HOME$/AppData/Local/Android/sdk/sources/android-22/android/database/sqlite/SQLiteDatabase.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="70" column="5" selection-start-line="70" selection-start-column="5" selection-end-line="70" selection-end-column="5" />
+        <state vertical-scroll-proportion="0.37271214">
+          <caret line="1336" column="65" selection-start-line="1336" selection-start-column="65" selection-end-line="1336" selection-end-column="65" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/tcy314/matthewma/homecontroller/DeviceBootReceiver.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.41594455">
+          <caret line="18" column="19" selection-start-line="18" selection-start-column="19" selection-end-line="18" selection-end-column="19" />
           <folding>
-            <element signature="docComment;class#Event#0" expanded="false" />
-            <element signature="method#getStartCalendarInString#0;class#Event#0" expanded="false" />
-            <element signature="method#getEndCalendarInString#0;class#Event#0" expanded="false" />
-            <element signature="method#getUntilCalendarInString#0;class#Event#0" expanded="false" />
+            <element signature="imports" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/tcy314/matthewma/homecontroller/ControllerDbHelper.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/tcy314/matthewma/homecontroller/DatabaseAndClass/ControllerDbHelper.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6323024">
-          <caret line="119" column="28" selection-start-line="119" selection-start-column="28" selection-end-line="119" selection-end-column="28" />
+        <state vertical-scroll-proportion="0.79725087">
+          <caret line="133" column="5" selection-start-line="133" selection-start-column="5" selection-end-line="133" selection-end-column="5" />
           <folding>
             <element signature="docComment;class#ControllerDbHelper#0" expanded="false" />
             <element signature="method#ControllerDbHelper#0;class#ControllerDbHelper#0" expanded="false" />
@@ -2517,12 +2493,115 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/tcy314/matthewma/homecontroller/BLE.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/tcy314/matthewma/homecontroller/DatabaseAndClass/DbEntry.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.13745704">
-          <caret line="7" column="18" selection-start-line="7" selection-start-column="18" selection-end-line="7" selection-end-column="18" />
+        <state vertical-scroll-proportion="-0.59889096">
+          <caret line="17" column="51" selection-start-line="17" selection-start-column="51" selection-end-line="17" selection-end-column="51" />
           <folding>
-            <element signature="docComment;class#BLE#0" expanded="false" />
+            <element signature="class#ElectronicType#0;class#DbEntry#0" expanded="false" />
+            <element signature="class#Room#0;class#DbEntry#0" expanded="false" />
+            <element signature="class#BLE#0;class#DbEntry#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/tcy314/matthewma/homecontroller/DatabaseAndClass/Event.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="10" column="3" selection-start-line="10" selection-start-column="3" selection-end-line="10" selection-end-column="3" />
+          <folding>
+            <element signature="docComment;class#Event#0" expanded="false" />
+            <element signature="method#Event#0;class#Event#0" expanded="false" />
+            <element signature="method#getStartCalendarInString#0;class#Event#0" expanded="false" />
+            <element signature="method#getEndCalendarInString#0;class#Event#0" expanded="false" />
+            <element signature="method#getUntilCalendarInString#0;class#Event#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/tcy314/matthewma/homecontroller/AlarmReceiver.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="19" column="59" selection-start-line="19" selection-start-column="59" selection-end-line="19" selection-end-column="59" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/tcy314/matthewma/homecontroller/EditEventActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="182" column="17" selection-start-line="182" selection-start-column="17" selection-end-line="182" selection-end-column="17" />
+          <folding>
+            <element signature="docComment;class#EditEventActivity#0" expanded="false" />
+            <element signature="e#8222#10391#0" expanded="true" />
+            <element signature="e#10390#10391#0" expanded="true" />
+            <element signature="e#11045#11338#0" expanded="true" />
+            <element signature="e#11337#11338#0" expanded="true" />
+            <element signature="e#11379#11670#0" expanded="true" />
+            <element signature="e#11669#11670#0" expanded="true" />
+            <element signature="e#11713#12006#0" expanded="true" />
+            <element signature="e#12005#12006#0" expanded="true" />
+            <element signature="e#12049#12342#0" expanded="true" />
+            <element signature="e#12341#12342#0" expanded="true" />
+            <element signature="e#12383#12674#0" expanded="true" />
+            <element signature="e#12673#12674#0" expanded="true" />
+            <element signature="e#12715#13418#0" expanded="true" />
+            <element signature="e#13117#13168#0" expanded="false" />
+            <element signature="e#13417#13418#0" expanded="true" />
+            <element signature="method#newInstance#0;class#DatePickerFragment#0;class#EditEventActivity#0" expanded="false" />
+            <element signature="method#onCreateDialog#0;class#DatePickerFragment#0;class#EditEventActivity#0" expanded="false" />
+            <element signature="method#onDateSet#0;class#DatePickerFragment#0;class#EditEventActivity#0" expanded="false" />
+            <element signature="class#TimePickerFragment#0;class#EditEventActivity#0" expanded="false" />
+            <element signature="method#newInstance#0;class#TimePickerFragment#0;class#EditEventActivity#0" expanded="false" />
+            <element signature="method#onCreateDialog#0;class#TimePickerFragment#0;class#EditEventActivity#0" expanded="false" />
+            <element signature="method#onTimeSet#0;class#TimePickerFragment#0;class#EditEventActivity#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/tcy314/matthewma/homecontroller/MainActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="62" column="17" selection-start-line="62" selection-start-column="17" selection-end-line="62" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="14" column="35" selection-start-line="14" selection-start-column="35" selection-end-line="14" selection-end-column="35" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/tcy314/matthewma/homecontroller/ShowEventActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="144" column="53" selection-start-line="144" selection-start-column="53" selection-end-line="144" selection-end-column="53" />
+          <folding>
+            <element signature="docComment;class#ShowEventActivity#0" expanded="false" />
+            <element signature="method#onCreate#0;class#ShowEventActivity#0" expanded="false" />
+            <element signature="e#3338#3389#0" expanded="false" />
+            <element signature="method#onResume#0;class#ShowEventActivity#0" expanded="false" />
+            <element signature="method#updateEventList#0;class#ShowEventActivity#0" expanded="false" />
+            <element signature="method#StartEditActivity#0;class#ShowEventActivity#0" expanded="false" />
+            <element signature="e#6561#6589#0" expanded="false" />
+            <element signature="class#EventAdapter#0;class#ShowEventActivity#0" expanded="false" />
+            <element signature="method#EventAdapter#0;class#EventAdapter#0;class#ShowEventActivity#0" expanded="false" />
+            <element signature="method#getView#0;class#EventAdapter#0;class#ShowEventActivity#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/tcy314/matthewma/homecontroller/Alarm.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.23518164">
+          <caret line="82" column="83" selection-start-line="82" selection-start-column="83" selection-end-line="82" selection-end-column="83" />
+          <folding>
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>

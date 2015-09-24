@@ -2,6 +2,7 @@ package com.tcy314.matthewma.homecontroller;
 
 import android.app.Activity;
 import android.app.ActionBar;
+import android.app.AlarmManager;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.ContentValues;
@@ -18,6 +19,11 @@ import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import com.tcy314.matthewma.homecontroller.DatabaseAndClass.Appliance;
+import com.tcy314.matthewma.homecontroller.DatabaseAndClass.ControllerDbHelper;
+import com.tcy314.matthewma.homecontroller.DatabaseAndClass.DbEntry;
+import com.tcy314.matthewma.homecontroller.DatabaseAndClass.ElectronicType;
 
 import java.util.ArrayList;
 import java.util.concurrent.locks.Lock;
@@ -39,12 +45,14 @@ public class MainActivity extends Activity
     private static ControllerDbHelper mDbHelper;
     private static ApplianceAdapter applianceAdapter;
     private ArrayList<Object> frequentlyUsedArrayList;
+    public static Alarm alarm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        alarm = new Alarm(this);
         Lock l = new ReentrantLock();
         l.lock();
         try {
@@ -54,7 +62,7 @@ public class MainActivity extends Activity
         }
         l.lock();
         try {
-            insertTestEntry();
+            //insertTestEntry();
             mNavigationDrawerFragment = (NavigationDrawerFragment)
                     getFragmentManager().findFragmentById(R.id.navigation_drawer);
             mTitle = getTitle();
@@ -288,7 +296,7 @@ public class MainActivity extends Activity
                 DbEntry.Appliance.COLUMN_TYPE_ID + " ASC ", null, null);
         if (distinctTypeCursor.moveToFirst()) {
             do {
-                // setup header
+                // set header
                 int distinctTypeId = distinctTypeCursor.getInt(0);
                 ElectronicType eType = mDbHelper.getElectronicTypeByPrimaryKey(distinctTypeId);
                 arrayList.add(eType.getName());

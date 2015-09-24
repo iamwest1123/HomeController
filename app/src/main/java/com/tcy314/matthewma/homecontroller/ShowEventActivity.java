@@ -14,14 +14,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.tcy314.matthewma.homecontroller.DatabaseAndClass.Appliance;
+import com.tcy314.matthewma.homecontroller.DatabaseAndClass.ControllerDbHelper;
+import com.tcy314.matthewma.homecontroller.DatabaseAndClass.DbEntry;
+import com.tcy314.matthewma.homecontroller.DatabaseAndClass.Event;
+
 import java.util.ArrayList;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * Created by Matthew Ma on 22/9/2015.
@@ -139,6 +141,8 @@ public class ShowEventActivity extends Activity {
                         isArrayListUpdated = true;
                         eventIdToBeUpdate = eventArrayList.get(position).getId();
                         int eventId = eventArrayList.get(position).getId();
+                        // TODO delete alarm
+                        MainActivity.alarm.delete(mDbHelper.getEventByPrimaryKey(eventId));
                         boolean deleted = mDbHelper.deleteEventByPrimaryKey(eventId);
                         updateEventList(eventId);
                         if (!deleted) {
@@ -161,7 +165,7 @@ public class ShowEventActivity extends Activity {
         private LayoutInflater inflater;
 
         public EventAdapter() {
-            super(context, R.layout.event_show_layout, eventArrayList);
+            super(context, R.layout.event_show_row, eventArrayList);
             inflater = ( LayoutInflater )context.
                     getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         }
@@ -169,7 +173,7 @@ public class ShowEventActivity extends Activity {
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
             if (convertView == null)
-                convertView = inflater.inflate(R.layout.event_show_layout, parent, false);
+                convertView = inflater.inflate(R.layout.event_show_row, parent, false);
             Event event = eventArrayList.get(position);
             tv_title = (TextView) convertView.findViewById(R.id.event_show_title);
             tv_startTime = (TextView) convertView.findViewById(R.id.event_show_tv_startTime);

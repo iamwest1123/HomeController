@@ -1,4 +1,4 @@
-package com.tcy314.matthewma.homecontroller;
+package com.tcy314.matthewma.homecontroller.DatabaseAndClass;
 
 import android.database.Cursor;
 
@@ -10,9 +10,9 @@ import java.util.Locale;
  * Created by Matthew Ma on 22/9/2015.
  */
 public class Event {
-    public final static SimpleDateFormat DATE_TIME_FORMAT = new SimpleDateFormat("E, d MMM yyyy kk:mm", Locale.UK);
+    public final static SimpleDateFormat DATE_TIME_FORMAT = new SimpleDateFormat("E, d MMM yyyy HH:mm", Locale.UK);
     public final static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("E, d MMM yyyy", Locale.UK);
-    public final static SimpleDateFormat TIME_FORMAT = new SimpleDateFormat("kk:mm", Locale.UK);
+    public final static SimpleDateFormat TIME_FORMAT = new SimpleDateFormat("HH:mm", Locale.UK);
     private int id;
     private String title;
     private Appliance.PrimaryKey appk;
@@ -27,6 +27,9 @@ public class Event {
         this.startCalendar = Calendar.getInstance();
         this.endCalendar = Calendar.getInstance();
         this.untilCalendar = Calendar.getInstance();
+        this.startCalendar.set(Calendar.SECOND, 0);
+        this.endCalendar.set(Calendar.SECOND, 0);
+        this.untilCalendar.set(Calendar.SECOND, 0);
         this.startState = DbEntry.Appliance.STATE_NOT_SET;
         this.endState = DbEntry.Appliance.STATE_NOT_SET;
         this.repeatOption = DbEntry.Event.REPEAT_NEVER;
@@ -130,4 +133,6 @@ public class Event {
     public void setRepeatOption(int repeatOption) {
         this.repeatOption = repeatOption;
     }
+
+
 }

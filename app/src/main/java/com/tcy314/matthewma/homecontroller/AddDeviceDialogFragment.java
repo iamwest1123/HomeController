@@ -20,6 +20,9 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.tcy314.matthewma.homecontroller.DatabaseAndClass.ControllerDbHelper;
+import com.tcy314.matthewma.homecontroller.DatabaseAndClass.DbEntry;
+
 import java.util.ArrayList;
 
 /**

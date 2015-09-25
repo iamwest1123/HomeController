@@ -20,6 +20,12 @@ public class Alarm {
     public final static String START_END = "com.tcy314.alarm.start_end";
     public final static int START = 0;
     public final static int END = 1;
+    public final static long INTERVAL_SECOND = 1000;
+    public final static long INTERVAL_MINUTE = 60000;
+    public final static long INTERVAL_HOUR = 1800000;
+    public final static long INTERVAL_DAY = 86400000;
+    public final static long INTERVAL_WEEK = 604800000;
+
     private static Context context;
     private static AlarmManager alarmMgr;
 
@@ -75,29 +81,22 @@ public class Alarm {
         long nowInMillis = Calendar.getInstance().getTimeInMillis();
         // Check if trigger time is in the future
         if (nowInMillis < triggerAtMillis) {
-            switch (event.getRepeatOption()) {
-                case DbEntry.Event.REPEAT_NEVER:
-                    alarmMgr.setExact(AlarmManager.RTC_WAKEUP, triggerAtMillis, pi);
-                    break;
-                case DbEntry.Event.REPEAT_EVERY_DAY:
-                    alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, triggerAtMillis,
-                            AlarmManager.INTERVAL_DAY, pi);
-                    break;
-                case DbEntry.Event.REPEAT_EVERY_WEEK:
-                    alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, triggerAtMillis,
-                            AlarmManager.INTERVAL_DAY * 7, pi);
-                    break;
-                case DbEntry.Event.REPEAT_EVERY_MONTH:
-                    // set one time event only since the separation is too long anyway
-                    alarmMgr.set(AlarmManager.RTC_WAKEUP, triggerAtMillis, pi);
-                    break;
-                case DbEntry.Event.REPEAT_EVERY_YEAR:
-                    // set one time event only since the separation is too long anyway
-                    alarmMgr.set(AlarmManager.RTC_WAKEUP, triggerAtMillis, pi);
-                    break;
-                default:
-                    break;
-            }
+            // TODO
+            if (event.getRepeatOption() == DbEntry.Event.INTERVAL_NEVER)
+                alarmMgr.setExact(AlarmManager.RTC_WAKEUP, triggerAtMillis, pi);
+            else if (event.getRepeatOption() == DbEntry.Event.INTERVAL_MINUTE)
+                alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, triggerAtMillis,
+                        Alarm.INTERVAL_MINUTE, pi);
+            else if (event.getRepeatOption() == DbEntry.Event.INTERVAL_HOUR)
+                alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, triggerAtMillis,
+                        Alarm.INTERVAL_HOUR, pi);
+            else if (event.getRepeatOption() == DbEntry.Event.INTERVAL_DAY)
+                alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, triggerAtMillis,
+                        Alarm.INTERVAL_DAY, pi);
+            else if (event.getRepeatOption() == DbEntry.Event.INTERVAL_WEEK)
+                alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, triggerAtMillis,
+                        Alarm.INTERVAL_WEEK, pi);
+
             Calendar c = Calendar.getInstance();
             c.setTimeInMillis(triggerAtMillis);
             Log.i("Alarm added", Event.TIME_FORMAT.format(c.getTime()));

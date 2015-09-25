@@ -171,11 +171,11 @@ public class DbEntry {
     }
 
     public static abstract class Event {
-        public static final int REPEAT_NEVER = 0;
-        public static final int REPEAT_EVERY_DAY = 1;
-        public static final int REPEAT_EVERY_WEEK = 2;
-        public static final int REPEAT_EVERY_MONTH = 3;
-        public static final int REPEAT_EVERY_YEAR = 4;
+        public final static long INTERVAL_NEVER = 0;
+        public final static long INTERVAL_MINUTE = 60000;
+        public final static long INTERVAL_HOUR = 1800000;
+        public final static long INTERVAL_DAY = 86400000;
+        public final static long INTERVAL_WEEK = 604800000;
         public static final String TABLE_NAME = "Event";
         public static final String COLUMN_ID = "ID";
         public static final String COLUMN_TITLE = "Title";

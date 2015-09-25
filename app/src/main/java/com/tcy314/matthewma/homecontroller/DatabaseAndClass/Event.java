@@ -2,6 +2,8 @@ package com.tcy314.matthewma.homecontroller.DatabaseAndClass;
 
 import android.database.Cursor;
 
+import com.tcy314.matthewma.homecontroller.R;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
@@ -21,7 +23,7 @@ public class Event {
     private Calendar untilCalendar;
     private int startState;
     private int endState;
-    private int repeatOption;
+    private long repeatOption;
 
     public Event () {
         this.startCalendar = Calendar.getInstance();
@@ -32,12 +34,12 @@ public class Event {
         this.untilCalendar.set(Calendar.SECOND, 0);
         this.startState = DbEntry.Appliance.STATE_NOT_SET;
         this.endState = DbEntry.Appliance.STATE_NOT_SET;
-        this.repeatOption = DbEntry.Event.REPEAT_NEVER;
+        this.repeatOption = DbEntry.Event.INTERVAL_NEVER;
     }
 
     public Event (int id, String title, Appliance.PrimaryKey appk,
                   long startCalendar, long endCalendar, long untilCalendar,
-                  int startState, int endState, int repeatOption) {
+                  int startState, int endState, long repeatOption) {
         this();
         this.id = id;
         this.title = title;
@@ -67,6 +69,25 @@ public class Event {
 
     public boolean isEndTimeSet() {
         return (endState != DbEntry.Appliance.STATE_NOT_SET);
+    }
+    public boolean isHappenAfterTime(long timeInMillis) {
+        long startInMillis = startCalendar.getTimeInMillis();
+        long endInMillis = endCalendar.getTimeInMillis();
+        long untilInMillis = untilCalendar.getTimeInMillis();
+        if (this.repeatOption == DbEntry.Event.INTERVAL_NEVER) {
+            if (startInMillis > timeInMillis)
+                return true;
+            else if (isEndTimeSet() && (endInMillis > timeInMillis))
+                return true;
+            return false;
+        }
+        else {
+            if ((startInMillis > timeInMillis) && (untilInMillis > startInMillis))
+                return true;
+            else if (isEndTimeSet() && (endInMillis > timeInMillis) && (untilInMillis > endInMillis))
+                return true;
+            return false;
+        }
     }
 
     public int getId() {
@@ -102,7 +123,7 @@ public class Event {
     public int getEndState() {
         return endState;
     }
-    public int getRepeatOption() {
+    public long getRepeatOption() {
         return repeatOption;
     }
 
@@ -130,9 +151,37 @@ public class Event {
     public void setEndState(int endState) {
         this.endState = endState;
     }
-    public void setRepeatOption(int repeatOption) {
+    public void setRepeatOption(long repeatOption) {
         this.repeatOption = repeatOption;
     }
 
-
+    public void setNow(long now) {
+        if (repeatOption != DbEntry.Event.INTERVAL_NEVER) {
+            long until = untilCalendar.getTimeInMillis();
+            if (until > now) {
+                long start = startCalendar.getTimeInMillis();
+                while ((start < now) && (start < until)) {
+                    start += repeatOption;
+                }
+                startCalendar.setTimeInMillis(start);
+                long end = endCalendar.getTimeInMillis();
+                while ((end < now) && (end < until)) {
+                    end += repeatOption;
+                }
+            }
+        }
+    }
+    public static int getRepeatEnum(long interval) {
+        if (interval == DbEntry.Event.INTERVAL_NEVER)
+            return 0;
+        else if (interval == DbEntry.Event.INTERVAL_MINUTE)
+            return 1;
+        else if (interval == DbEntry.Event.INTERVAL_HOUR)
+            return 2;
+        else if (interval == DbEntry.Event.INTERVAL_DAY)
+            return 3;
+        else if (interval == DbEntry.Event.INTERVAL_WEEK)
+            return 4;
+        return -1;
+    }
 }

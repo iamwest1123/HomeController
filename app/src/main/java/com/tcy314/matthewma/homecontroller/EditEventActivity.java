@@ -95,6 +95,8 @@ public class EditEventActivity extends Activity {
                     public void onClick(View v) {
                         ContentValues values;
                         String title = et_title.getText().toString();
+                        if (title.equals(""))
+                            title = "(No title)";
                         event.setTitle(title);
                         values = DbEntry.Event.put(event);
                         if (isEditingEvent) {
@@ -284,39 +286,31 @@ public class EditEventActivity extends Activity {
         });
     }
 
-    private void setRepeatOption(int repeat) {
-        tv_repeat.setText(getResources().getStringArray(R.array.event_repeat_option)[repeat]);
-        switch (repeat) {
+    private void setRepeatOption(long repeat) {
+        tv_repeat.setText(getResources().getStringArray(R.array.event_repeat_option)[Event.getRepeatEnum(repeat)]);
+        switch (Event.getRepeatEnum(repeat)) {
             case 0: ll_untilDate.setVisibility(View.GONE);
-                event.setRepeatOption(DbEntry.Event.REPEAT_NEVER);
+                event.setRepeatOption(DbEntry.Event.INTERVAL_NEVER);
                 break;
             case 1:
                 ll_untilDate.setVisibility(View.VISIBLE);
-                event.setRepeatOption(DbEntry.Event.REPEAT_EVERY_DAY);
+                event.setRepeatOption(DbEntry.Event.INTERVAL_MINUTE);
                 break;
             case 2:
                 ll_untilDate.setVisibility(View.VISIBLE);
-                event.setRepeatOption(DbEntry.Event.REPEAT_EVERY_WEEK);
+                event.setRepeatOption(DbEntry.Event.INTERVAL_HOUR);
                 break;
             case 3:
                 ll_untilDate.setVisibility(View.VISIBLE);
-                event.setRepeatOption(DbEntry.Event.REPEAT_EVERY_MONTH);
+                event.setRepeatOption(DbEntry.Event.INTERVAL_DAY);
                 break;
             case 4:
                 ll_untilDate.setVisibility(View.VISIBLE);
-                event.setRepeatOption(DbEntry.Event.REPEAT_EVERY_YEAR);
+                event.setRepeatOption(DbEntry.Event.INTERVAL_WEEK);
                 break;
             default: ll_untilDate.setVisibility(View.VISIBLE);
                 break;
         }
-    }
-
-    public void setupAlarm(final long eventId) {
-        // TODO
-
-    }
-    public void deleteAlarm(final long eventId) {
-        // TODO
     }
 
     public static class DatePickerFragment extends DialogFragment

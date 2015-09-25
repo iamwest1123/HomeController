@@ -1,6 +1,7 @@
 package com.tcy314.matthewma.homecontroller;
 
 import android.app.Activity;
+import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -50,24 +51,14 @@ public class ShowEventActivity extends Activity {
         setContentView(R.layout.event_show_main);
         mDbHelper = new ControllerDbHelper(this);
         context = this;
-        SQLiteDatabase db = mDbHelper.getReadableDatabase();
         int[] apArray = getIntent().getIntArrayExtra(APPLIANCE);
         appliance = mDbHelper.getApplianceByPrimaryKey(new Appliance.PrimaryKey(apArray[0],apArray[1]));
+        if (appliance != null)
             getActionBar().setTitle(appliance.getName());
-        Cursor cursor = db.query(DbEntry.Event.TABLE_NAME,
-                DbEntry.Event.SELECT_ALL,
-                DbEntry.Event.COLUMN_BLE_ID + " =? and " + DbEntry.Event.COLUMN_PORT_ID + " =?",
-                new String[]{String.valueOf(appliance.getBleId()), String.valueOf(appliance.getPortId())},
-                null, null, DbEntry.Event.COLUMN_START + " ASC");
-        if (cursor.moveToFirst()) {
-            do {
-                eventArrayList.add(new Event(cursor));
-            } while (cursor.moveToNext());
-        }
-        cursor.close();
         eventAdapter = new EventAdapter();
         ListView lv = (ListView) findViewById(R.id.event_show_lv);
         lv.setAdapter(eventAdapter);
+        updateEventList();
 
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -99,27 +90,26 @@ public class ShowEventActivity extends Activity {
     public void onResume() {
         super.onResume();
         if (isArrayListUpdated) {
-            updateEventList(eventIdToBeUpdate);
+            updateEventList();
         }
     }
 
-    private void updateEventList(final int eventId) {
-        isArrayListUpdated = false;
-        Event newEvent = mDbHelper.getEventByPrimaryKey(eventId);
-        int index = -1;
-        for (int i = 0; i < eventArrayList.size(); i++) {
-            if (eventArrayList.get(i).getId() == eventId) {
-                index = i;
-                break;
-            }
+    private void updateEventList() {
+        eventArrayList.clear();
+        SQLiteDatabase db = mDbHelper.getReadableDatabase();
+        Cursor cursor = db.query(DbEntry.Event.TABLE_NAME,
+                DbEntry.Event.SELECT_ALL,
+                DbEntry.Event.COLUMN_BLE_ID + " =? and " + DbEntry.Event.COLUMN_PORT_ID + " =?",
+                new String[]{String.valueOf(appliance.getBleId()), String.valueOf(appliance.getPortId())},
+                null, null, DbEntry.Event.COLUMN_START + " ASC");
+        if (cursor.moveToFirst()) {
+            do {
+                eventArrayList.add(new Event(cursor));
+            } while (cursor.moveToNext());
+            mDbHelper.addEventToMap(eventArrayList);
         }
-        if (index != -1) {  // found in the list
-            if (newEvent == null) // delete event)
-                eventArrayList.remove(index);
-            else    // update event
-                eventArrayList.set(index, newEvent);
-            eventAdapter.notifyDataSetChanged();
-        }
+        cursor.close();
+        eventAdapter.notifyDataSetChanged();
     }
 
     private void StartEditActivity(final int position) {
@@ -144,7 +134,7 @@ public class ShowEventActivity extends Activity {
                         // TODO delete alarm
                         MainActivity.alarm.delete(mDbHelper.getEventByPrimaryKey(eventId));
                         boolean deleted = mDbHelper.deleteEventByPrimaryKey(eventId);
-                        updateEventList(eventId);
+                        updateEventList();
                         if (!deleted) {
                             Log.e("Delete event","Nothing is deleted");
                         }
@@ -206,8 +196,11 @@ public class ShowEventActivity extends Activity {
                     ll_end.setVisibility(View.GONE);break;
                 default: tv_startStatus.setText(String.valueOf(event.getStartState())+"%"); break;
             }
-            String repeatString = getResources().getStringArray(R.array.event_repeat_option)[event.getRepeatOption()];
-            if (event.getRepeatOption() != DbEntry.Event.REPEAT_NEVER)
+
+            String repeatString =
+                    getResources().getStringArray(R.array.event_repeat_option)[Event.getRepeatEnum(event.getRepeatOption())];
+
+            if (event.getRepeatOption() != DbEntry.Event.INTERVAL_NEVER)
                 repeatString += " until " + event.getUntilCalendarInString(Event.DATE_FORMAT);
             tv_repeat.setText(repeatString);
             return convertView;

@@ -28,10 +28,10 @@
     <string name="edit_event">Edit event</string>
     <string-array name="event_repeat_option">
         <item>Does not repeat</item>
+        <item>Repeat every minute</item>
+        <item>Repeat every hour</item>
         <item>Repeat every day</item>
         <item>Repeat every week</item>
-        <item>Repeat every month</item>
-        <item>Repeat every year</item>
     </string-array>
     <string-array name="event_show_alert_dialog">
         <item>Edit event</item>

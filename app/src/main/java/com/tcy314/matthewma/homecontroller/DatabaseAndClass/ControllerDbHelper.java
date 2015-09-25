@@ -8,18 +8,20 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 import android.util.SparseArray;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
  * Created by Matthew Ma on 27/8/2015.
  */
 public class ControllerDbHelper extends SQLiteOpenHelper {
-    public static final int DATABASE_VERSION = 9;
+    public static final int DATABASE_VERSION = 10;
     public static final String DATABASE_NAME = "HomeControl.db";
     private static SQLiteDatabase db;
     private static SparseArray<String> roomMap = new SparseArray<>();
     private static SparseArray<ElectronicType> electronicTypeMap = new SparseArray<>();
-    private static SparseArray<BLE> BleMap = new SparseArray<>();
+    private static SparseArray<BLE> bleMap = new SparseArray<>();
+    private static SparseArray<Event> eventMap = new SparseArray<>();
     private static HashMap<Appliance.PrimaryKey, Appliance> applianceMap = new HashMap<>();
 
     public ControllerDbHelper(Context context) {
@@ -77,40 +79,40 @@ public class ControllerDbHelper extends SQLiteOpenHelper {
         return getApplianceByPrimaryKey(new Appliance.PrimaryKey(bleId, portId));
     }
     // TODO Untested
-    public BLE getBleByPrimaryKey(int BleId) {
-        if (BleMap.get(BleId) != null) {
-            return BleMap.get(BleId);
+    public BLE getBleByPrimaryKey(int id) {
+        if (bleMap.get(id) != null) {
+            return bleMap.get(id);
         }
         db = this.getWritableDatabase();
         Cursor cursor = db.query(DbEntry.BLE.TABLE_NAME,
                 DbEntry.BLE.SELECT_ALL,
                 DbEntry.BLE.COLUMN_BLE_ID + " =?",
-                new String[]{String.valueOf(BleId)},
+                new String[]{String.valueOf(id)},
                 null, null, null);
         if (cursor.moveToFirst()) {
             // write back to map
             BLE result = new BLE(cursor);
-            BleMap.put(BleId, result);
+            bleMap.append(id, result);
             cursor.close();
             return result;
         }
         cursor.close();
         return null;
     }
-    public ElectronicType getElectronicTypeByPrimaryKey(int typeId) {
-        if (electronicTypeMap.get(typeId) != null) {
-            return electronicTypeMap.get(typeId);
+    public ElectronicType getElectronicTypeByPrimaryKey(int id) {
+        if (electronicTypeMap.get(id) != null) {
+            return electronicTypeMap.get(id);
         }
         db = this.getWritableDatabase();
         Cursor cursor = db.query(DbEntry.ElectronicType.TABLE_NAME,
                 DbEntry.ElectronicType.SELECT_ALL,
                 DbEntry.ElectronicType.COLUMN_TYPE_ID + " =?",
-                new String[]{String.valueOf(typeId)},
+                new String[]{String.valueOf(id)},
                 null, null, null);
         if (cursor.moveToFirst()) {
             // write back to map
             ElectronicType result = new ElectronicType(cursor);
-            electronicTypeMap.put(typeId, result);
+            electronicTypeMap.append(id, result);
             cursor.close();
             return result;
         }
@@ -118,6 +120,10 @@ public class ControllerDbHelper extends SQLiteOpenHelper {
         return null;
     }
     public Event getEventByPrimaryKey(int id) {
+        // check cache memory
+        if (eventMap.get(id) != null) {
+            return eventMap.get(id);
+        }
         db = this.getWritableDatabase();
         Cursor cursor = db.query(DbEntry.Event.TABLE_NAME,
                 DbEntry.Event.SELECT_ALL,
@@ -127,6 +133,7 @@ public class ControllerDbHelper extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             // write back to map
             Event result = new Event(cursor);
+            eventMap.append(id, result);
             cursor.close();
             return result;
         }
@@ -146,7 +153,7 @@ public class ControllerDbHelper extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             // write back to map
             String result = cursor.getString(cursor.getColumnIndex(DbEntry.Room.COLUMN_NAME));
-            roomMap.put(roomId, result);
+            roomMap.append(roomId, result);
             cursor.close();
             return result;
         }
@@ -164,38 +171,54 @@ public class ControllerDbHelper extends SQLiteOpenHelper {
                 cv,
                 DbEntry.Appliance.COLUMN_BLE_ID + " =? and " + DbEntry.Appliance.COLUMN_PORT_ID + " =?",
                 new String[]{String.valueOf(bleId), String.valueOf(portId)});
+        // re-populate map
+        Appliance.PrimaryKey appk = new Appliance.PrimaryKey(bleId, portId);
+        applianceMap.remove(appk);
+        this.getApplianceByPrimaryKey(appk);
         return (result != 0);
     }
-    public boolean updateBleByPrimaryKey(int bleId, ContentValues cv) {
+    public boolean updateBleByPrimaryKey(int id, ContentValues cv) {
         db = this.getWritableDatabase();
         int result = db.update(DbEntry.BLE.TABLE_NAME,
                 cv,
                 DbEntry.BLE.COLUMN_BLE_ID + " =?",
-                new String[]{String.valueOf(bleId)});
+                new String[]{String.valueOf(id)});
+        // re-populate map
+        bleMap.remove(id);
+        this.getBleByPrimaryKey(id);
         return (result != 0);
     }
-    public boolean updateElectronicTypeByPrimaryKey(int typeId, ContentValues cv) {
+    public boolean updateElectronicTypeByPrimaryKey(int id, ContentValues cv) {
         db = this.getWritableDatabase();
         int result = db.update(DbEntry.ElectronicType.TABLE_NAME,
                 cv,
                 DbEntry.ElectronicType.COLUMN_TYPE_ID + " =?",
-                new String[]{String.valueOf(typeId)});
+                new String[]{String.valueOf(id)});
+        // re-populate map
+        electronicTypeMap.remove(id);
+        this.getElectronicTypeByPrimaryKey(id);
         return (result != 0);
     }
-    public boolean updateEventByPrimaryKey(int eventId, ContentValues cv) {
+    public boolean updateEventByPrimaryKey(int id, ContentValues cv) {
         db = this.getWritableDatabase();
         int result = db.update(DbEntry.Event.TABLE_NAME,
                 cv,
                 DbEntry.Event.COLUMN_ID + " =?",
-                new String[]{String.valueOf(eventId)});
+                new String[]{String.valueOf(id)});
+        // re-populate map
+        eventMap.remove(id);
+        this.getEventByPrimaryKey(id);
         return (result != 0);
     }
-    public boolean updateRoomByPrimaryKey(int roomId, ContentValues cv) {
+    public boolean updateRoomByPrimaryKey(int id, ContentValues cv) {
         db = this.getWritableDatabase();
         int result = db.update(DbEntry.Room.TABLE_NAME,
                 cv,
                 DbEntry.Room.COLUMN_ROOM_ID + " =?",
-                new String[]{String.valueOf(roomId)});
+                new String[]{String.valueOf(id)});
+        // re-populate map
+        roomMap.remove(id);
+        this.getRoomByPrimaryKey(id);
         return (result != 0);
     }
 
@@ -208,35 +231,51 @@ public class ControllerDbHelper extends SQLiteOpenHelper {
         int result = db.delete(DbEntry.Appliance.TABLE_NAME,
                 DbEntry.Appliance.COLUMN_BLE_ID + " =? and " + DbEntry.Appliance.COLUMN_PORT_ID + " =?",
                 new String[]{String.valueOf(bleId), String.valueOf(portId)});
+        Appliance.PrimaryKey appk = new Appliance.PrimaryKey(bleId, portId);
+        applianceMap.remove(appk);
         return (result != 0);
     }
-    public boolean deleteBleByPrimaryKey(int bleId) {
+    public boolean deleteBleByPrimaryKey(int id) {
         db = this.getWritableDatabase();
         int result = db.delete(DbEntry.BLE.TABLE_NAME,
                 DbEntry.BLE.COLUMN_BLE_ID + " =?",
-                new String[]{String.valueOf(bleId)});
+                new String[]{String.valueOf(id)});
+        bleMap.remove(id);
         return (result != 0);
     }
-    public boolean deleteElectronicTypeByPrimaryKey(int typeId) {
+    public boolean deleteElectronicTypeByPrimaryKey(int id) {
         db = this.getWritableDatabase();
         int result = db.delete(DbEntry.ElectronicType.TABLE_NAME,
                 DbEntry.ElectronicType.COLUMN_TYPE_ID + " =?",
-                new String[]{String.valueOf(typeId)});
+                new String[]{String.valueOf(id)});
+        electronicTypeMap.remove(id);
         return (result != 0);
     }
-    public boolean deleteEventByPrimaryKey(int eventId) {
+    public boolean deleteEventByPrimaryKey(int id) {
         db = this.getWritableDatabase();
         int result = db.delete(DbEntry.Event.TABLE_NAME,
                 DbEntry.Event.COLUMN_ID + " =?",
-                new String[]{String.valueOf(eventId)});
+                new String[]{String.valueOf(id)});
+        eventMap.remove(id);
         return (result != 0);
     }
-    public boolean deleteRoomByPrimaryKey(int roomId) {
+    public boolean deleteRoomByPrimaryKey(int id) {
         db = this.getWritableDatabase();
         int result = db.delete(DbEntry.Room.TABLE_NAME,
                 DbEntry.Room.COLUMN_ROOM_ID + " =?",
-                new String[]{String.valueOf(roomId)});
+                new String[]{String.valueOf(id)});
+        roomMap.remove(id);
         return (result != 0);
     }
 
+
+    public void addEventToMap(Event e) {
+        if (e != null)
+            eventMap.put(e.getId(), e);
+    }
+    public void addEventToMap(ArrayList<Event> aList) {
+        for (Event e : aList) {
+            addEventToMap(e);
+        }
+    }
 }

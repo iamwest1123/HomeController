@@ -62,7 +62,7 @@ public class MainActivity extends Activity
         }
         l.lock();
         try {
-            //insertTestEntry();
+            insertTestEntry();
             mNavigationDrawerFragment = (NavigationDrawerFragment)
                     getFragmentManager().findFragmentById(R.id.navigation_drawer);
             mTitle = getTitle();
@@ -120,14 +120,6 @@ public class MainActivity extends Activity
         values = DbEntry.BLE.put(1, "DUMMY", 1);
         db.insert(DbEntry.BLE.TABLE_NAME, null, values);
         values.clear();
-
-        values = DbEntry.Event.put("TestEvent",
-                new Appliance.PrimaryKey(2, 1),
-                1, 1, 1, 1,
-                DbEntry.Event.REPEAT_NEVER, 1
-        );
-        mDbHelper.getWritableDatabase().insert(
-                DbEntry.Event.TABLE_NAME, null, values);
 
         Log.i("insertTestEntry", "Complete");
 

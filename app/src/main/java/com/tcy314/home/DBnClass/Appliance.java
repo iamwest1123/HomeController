@@ -1,4 +1,4 @@
-package com.tcy314.matthewma.homecontroller.DatabaseAndClass;
+package com.tcy314.home.DBnClass;
 
 import android.database.Cursor;
 

@@ -1,11 +1,10 @@
-package com.tcy314.matthewma.homecontroller;
+package com.tcy314.home;
 
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
-import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.ContentValues;
 import android.content.DialogInterface;
@@ -23,15 +22,14 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
-import com.tcy314.matthewma.homecontroller.DatabaseAndClass.Appliance;
-import com.tcy314.matthewma.homecontroller.DatabaseAndClass.ControllerDbHelper;
-import com.tcy314.matthewma.homecontroller.DatabaseAndClass.DbEntry;
-import com.tcy314.matthewma.homecontroller.DatabaseAndClass.ElectronicType;
-import com.tcy314.matthewma.homecontroller.DatabaseAndClass.Event;
+import com.tcy314.home.DBnClass.Appliance;
+import com.tcy314.home.DBnClass.ControllerDbHelper;
+import com.tcy314.home.DBnClass.DbEntry;
+import com.tcy314.home.DBnClass.ElectronicType;
+import com.tcy314.home.DBnClass.Event;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Locale;
 
 /**
  * Created by Matthew Ma on 12/9/2015.
@@ -88,7 +86,7 @@ public class EditEventActivity extends Activity {
         final LayoutInflater inflater = (LayoutInflater) getActionBar().getThemedContext()
                 .getSystemService(LAYOUT_INFLATER_SERVICE);
         final View customActionBarView = inflater.inflate(
-                R.layout.event_edit_actionbar_custom_view, null);
+                R.layout.event_edit_actionbar, null);
         customActionBarView.findViewById(R.id.actionbar_save).setOnClickListener(
                 new View.OnClickListener() {
                     @Override

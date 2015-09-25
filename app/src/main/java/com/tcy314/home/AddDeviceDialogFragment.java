@@ -1,4 +1,4 @@
-package com.tcy314.matthewma.homecontroller;
+package com.tcy314.home;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -20,8 +20,8 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.tcy314.matthewma.homecontroller.DatabaseAndClass.ControllerDbHelper;
-import com.tcy314.matthewma.homecontroller.DatabaseAndClass.DbEntry;
+import com.tcy314.home.DBnClass.ControllerDbHelper;
+import com.tcy314.home.DBnClass.DbEntry;
 
 import java.util.ArrayList;
 

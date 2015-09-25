@@ -1,7 +1,6 @@
-package com.tcy314.matthewma.homecontroller;
+package com.tcy314.home;
 
 import android.app.Activity;
-import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -19,10 +18,10 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.tcy314.matthewma.homecontroller.DatabaseAndClass.Appliance;
-import com.tcy314.matthewma.homecontroller.DatabaseAndClass.ControllerDbHelper;
-import com.tcy314.matthewma.homecontroller.DatabaseAndClass.DbEntry;
-import com.tcy314.matthewma.homecontroller.DatabaseAndClass.Event;
+import com.tcy314.home.DBnClass.Appliance;
+import com.tcy314.home.DBnClass.ControllerDbHelper;
+import com.tcy314.home.DBnClass.DbEntry;
+import com.tcy314.home.DBnClass.Event;
 
 import java.util.ArrayList;
 

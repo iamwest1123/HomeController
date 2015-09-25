@@ -1,8 +1,8 @@
-package com.tcy314.matthewma.homecontroller;
+package com.tcy314.home;
 
 import android.database.Cursor;
 
-import com.tcy314.matthewma.homecontroller.DatabaseAndClass.Appliance;
+import com.tcy314.home.DBnClass.Appliance;
 
 /**
  * Created by Matthew Ma on 30/8/2015.

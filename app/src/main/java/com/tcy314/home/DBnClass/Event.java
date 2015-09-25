@@ -1,8 +1,6 @@
-package com.tcy314.matthewma.homecontroller.DatabaseAndClass;
+package com.tcy314.home.DBnClass;
 
 import android.database.Cursor;
-
-import com.tcy314.matthewma.homecontroller.R;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;

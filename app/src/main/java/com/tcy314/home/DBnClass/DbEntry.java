@@ -1,4 +1,4 @@
-package com.tcy314.matthewma.homecontroller.DatabaseAndClass;
+package com.tcy314.home.DBnClass;
 
 import android.content.ContentValues;
 
@@ -77,7 +77,7 @@ public class DbEntry {
             values.put(COLUMN_COUNT, count);
             return values;
         }
-        public static ContentValues put(com.tcy314.matthewma.homecontroller.DatabaseAndClass.Appliance ap)
+        public static ContentValues put(com.tcy314.home.DBnClass.Appliance ap)
         {
             ContentValues values = new ContentValues();
             values.put(COLUMN_BLE_ID, ap.getBleId());
@@ -209,7 +209,7 @@ public class DbEntry {
         };
 
         public static ContentValues put(String name,
-                com.tcy314.matthewma.homecontroller.DatabaseAndClass.Appliance.PrimaryKey primaryKey,
+                com.tcy314.home.DBnClass.Appliance.PrimaryKey primaryKey,
                 long startTime, int startState, long endTime, int endState,
                 int repeatOption, long untilTime)
         {
@@ -225,7 +225,7 @@ public class DbEntry {
             values.put(COLUMN_UNTIL, untilTime);
             return values;
         }
-        public static ContentValues put(com.tcy314.matthewma.homecontroller.DatabaseAndClass.Event event) {
+        public static ContentValues put(com.tcy314.home.DBnClass.Event event) {
             ContentValues values = new ContentValues();
             values.put(COLUMN_TITLE, event.getTitle());
             values.put(COLUMN_BLE_ID, event.getAppk().bleId);

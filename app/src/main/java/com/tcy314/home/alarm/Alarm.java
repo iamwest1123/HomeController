@@ -1,14 +1,13 @@
-package com.tcy314.matthewma.homecontroller;
+package com.tcy314.home.alarm;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.util.Log;
 
-import com.tcy314.matthewma.homecontroller.DatabaseAndClass.DbEntry;
-import com.tcy314.matthewma.homecontroller.DatabaseAndClass.Event;
+import com.tcy314.home.DBnClass.DbEntry;
+import com.tcy314.home.DBnClass.Event;
 
 import java.util.Calendar;
 

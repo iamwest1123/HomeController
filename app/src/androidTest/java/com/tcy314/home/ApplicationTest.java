@@ -1,4 +1,4 @@
-package com.tcy314.matthewma.homecontroller;
+package com.tcy314.home;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

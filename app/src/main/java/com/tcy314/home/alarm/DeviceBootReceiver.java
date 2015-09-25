@@ -1,17 +1,15 @@
-package com.tcy314.matthewma.homecontroller;
+package com.tcy314.home.alarm;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.widget.Toast;
 
-import com.tcy314.matthewma.homecontroller.DatabaseAndClass.ControllerDbHelper;
-import com.tcy314.matthewma.homecontroller.DatabaseAndClass.DbEntry;
-import com.tcy314.matthewma.homecontroller.DatabaseAndClass.Event;
+import com.tcy314.home.DBnClass.ControllerDbHelper;
+import com.tcy314.home.DBnClass.DbEntry;
+import com.tcy314.home.DBnClass.Event;
+import com.tcy314.home.MainActivity;
 
 import java.util.ArrayList;
 import java.util.Calendar;

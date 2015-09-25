@@ -1,4 +1,4 @@
-package com.tcy314.matthewma.homecontroller;
+package com.tcy314.home;
 
 
 import android.app.Activity;
@@ -21,7 +21,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.tcy314.matthewma.homecontroller.DatabaseAndClass.ControllerDbHelper;
+import com.tcy314.home.DBnClass.ControllerDbHelper;
 
 import java.util.ArrayList;
 

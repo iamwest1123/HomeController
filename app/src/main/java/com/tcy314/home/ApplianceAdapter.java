@@ -1,4 +1,4 @@
-package com.tcy314.matthewma.homecontroller;
+package com.tcy314.home;
 
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -15,9 +15,9 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
-import com.tcy314.matthewma.homecontroller.DatabaseAndClass.Appliance;
-import com.tcy314.matthewma.homecontroller.DatabaseAndClass.ControllerDbHelper;
-import com.tcy314.matthewma.homecontroller.DatabaseAndClass.DbEntry;
+import com.tcy314.home.DBnClass.Appliance;
+import com.tcy314.home.DBnClass.ControllerDbHelper;
+import com.tcy314.home.DBnClass.DbEntry;
 
 import java.util.ArrayList;
 
@@ -100,13 +100,13 @@ public class ApplianceAdapter extends BaseAdapter {
         if (convertView == null) {
             switch (type) {
                 case TYPE_TOGGLE_BUTTON:
-                    convertView = inflater.inflate(R.layout.toggle_button_layout, parent, false);
+                    convertView = inflater.inflate(R.layout.ap_adapter_toggle_button, parent, false);
                     break;
                 case TYPE_SWITCH:
-                    convertView = inflater.inflate(R.layout.switch_layout, parent, false);
+                    convertView = inflater.inflate(R.layout.ap_adapter_switch, parent, false);
                     break;
                 case TYPE_DIVIDER:
-                    convertView = inflater.inflate(R.layout.header_appliance_adapter, parent, false);
+                    convertView = inflater.inflate(R.layout.ap_adapter_header, parent, false);
                     break;
             }
         }

@@ -1,15 +1,14 @@
-package com.tcy314.matthewma.homecontroller;
+package com.tcy314.home.alarm;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
-import android.widget.Toast;
 
-import com.tcy314.matthewma.homecontroller.DatabaseAndClass.Appliance;
-import com.tcy314.matthewma.homecontroller.DatabaseAndClass.BLE;
-import com.tcy314.matthewma.homecontroller.DatabaseAndClass.ControllerDbHelper;
-import com.tcy314.matthewma.homecontroller.DatabaseAndClass.Event;
+import com.tcy314.home.DBnClass.Appliance;
+import com.tcy314.home.DBnClass.BLE;
+import com.tcy314.home.DBnClass.ControllerDbHelper;
+import com.tcy314.home.DBnClass.Event;
 
 /**
  * Created by Matthew Ma on 24/9/2015.

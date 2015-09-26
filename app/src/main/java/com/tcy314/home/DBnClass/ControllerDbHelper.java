@@ -23,9 +23,13 @@ public class ControllerDbHelper extends SQLiteOpenHelper {
     private static SparseArray<BLE> bleMap = new SparseArray<>();
     private static SparseArray<Event> eventMap = new SparseArray<>();
     private static HashMap<Appliance.PrimaryKey, Appliance> applianceMap = new HashMap<>();
+    private int hit;
+    private int miss;
 
     public ControllerDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        hit = 0;
+        miss = 0;
     }
 
     public void onCreate(SQLiteDatabase db) {
@@ -57,8 +61,10 @@ public class ControllerDbHelper extends SQLiteOpenHelper {
     public Appliance getApplianceByPrimaryKey(Appliance.PrimaryKey appk) {
         // check psudo cache memory
         if (applianceMap.get(appk) != null){
+            hit++;
             return applianceMap.get(appk);
         }
+        miss++;
         db = this.getWritableDatabase();
         Cursor cursor = db.query(DbEntry.Appliance.TABLE_NAME,
                 DbEntry.Appliance.SELECT_ALL,
@@ -81,8 +87,10 @@ public class ControllerDbHelper extends SQLiteOpenHelper {
     // TODO Untested
     public BLE getBleByPrimaryKey(int id) {
         if (bleMap.get(id) != null) {
+            hit++;
             return bleMap.get(id);
         }
+        miss++;
         db = this.getWritableDatabase();
         Cursor cursor = db.query(DbEntry.BLE.TABLE_NAME,
                 DbEntry.BLE.SELECT_ALL,
@@ -101,8 +109,10 @@ public class ControllerDbHelper extends SQLiteOpenHelper {
     }
     public ElectronicType getElectronicTypeByPrimaryKey(int id) {
         if (electronicTypeMap.get(id) != null) {
+            hit++;
             return electronicTypeMap.get(id);
         }
+        miss++;
         db = this.getWritableDatabase();
         Cursor cursor = db.query(DbEntry.ElectronicType.TABLE_NAME,
                 DbEntry.ElectronicType.SELECT_ALL,
@@ -122,8 +132,10 @@ public class ControllerDbHelper extends SQLiteOpenHelper {
     public Event getEventByPrimaryKey(int id) {
         // check cache memory
         if (eventMap.get(id) != null) {
+            hit++;
             return eventMap.get(id);
         }
+        miss++;
         db = this.getWritableDatabase();
         Cursor cursor = db.query(DbEntry.Event.TABLE_NAME,
                 DbEntry.Event.SELECT_ALL,
@@ -142,8 +154,10 @@ public class ControllerDbHelper extends SQLiteOpenHelper {
     public String getRoomByPrimaryKey(int roomId) {
         // check cache memory
         if (roomMap.get(roomId) != null) {
+            hit++;
             return roomMap.get(roomId);
         }
+        miss++;
         db = this.getWritableDatabase();
         Cursor cursor = db.query(DbEntry.Room.TABLE_NAME,
                 DbEntry.Room.SELECT_ALL,

@@ -60,7 +60,7 @@ public class NavigationDrawerFragment extends Fragment {
     private int mCurrentSelectedPosition = 0;
     private boolean mFromSavedInstanceState;
     private boolean mUserLearnedDrawer;
-    private static ControllerDbHelper mDbHelper;
+    private ControllerDbHelper mDbHelper;
     private ArrayList<String> navigationDrawerItemsList = new ArrayList<>();
 
     public NavigationDrawerFragment() {
@@ -80,7 +80,7 @@ public class NavigationDrawerFragment extends Fragment {
             mFromSavedInstanceState = true;
         }
 
-        mDbHelper = new ControllerDbHelper(getActivity());
+        mDbHelper = ((mBaseApplication)getActivity().getApplicationContext()).getDbHelper();
 
         // Select either the default item (0) or the last selected item.
         selectItem(mCurrentSelectedPosition);

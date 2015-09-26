@@ -40,4 +40,7 @@
     <string name="event_repeat_option_default">Does not repeat</string>
     <string name="event_repeat_until">Until</string>
     <string name="event_delete_message">Delete this event?</string>
+
+    <string name="ble_not_supported">BLE is not supported</string>
+    <string name="error_bluetooth_not_supported">Bluetooth not supported.</string>
 </resources>

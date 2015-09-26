@@ -10,6 +10,7 @@ import com.tcy314.home.DBnClass.ControllerDbHelper;
 import com.tcy314.home.DBnClass.DbEntry;
 import com.tcy314.home.DBnClass.Event;
 import com.tcy314.home.MainActivity;
+import com.tcy314.home.mBaseApplication;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -18,11 +19,11 @@ import java.util.Calendar;
  * Created by Matthew Ma on 24/9/2015.
  */
 public class DeviceBootReceiver extends BroadcastReceiver {
-    private static ControllerDbHelper mDbHelper;
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        mDbHelper = new ControllerDbHelper(context);
+        ControllerDbHelper mDbHelper = ((mBaseApplication)context.getApplicationContext()).getDbHelper();
+        Alarm mAlarm = ((mBaseApplication)context.getApplicationContext()).getAlarm();
         ArrayList<Event> eventArrayList = new ArrayList<>();
         if (intent.getAction().equals("android.intent.action.BOOT_COMPLETED")) {
             /* Setting the alarm here */
@@ -49,7 +50,7 @@ public class DeviceBootReceiver extends BroadcastReceiver {
             cursor.close();
             // set alarms
             for (Event e : eventArrayList) {
-                MainActivity.alarm.set(e);
+                mAlarm.set(e);
             }
         }
     }

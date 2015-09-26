@@ -27,6 +27,7 @@ import com.tcy314.home.DBnClass.ControllerDbHelper;
 import com.tcy314.home.DBnClass.DbEntry;
 import com.tcy314.home.DBnClass.ElectronicType;
 import com.tcy314.home.DBnClass.Event;
+import com.tcy314.home.alarm.Alarm;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -40,7 +41,8 @@ public class EditEventActivity extends Activity {
     public final static String EVENT_ID = "com.tcy314.editeventactivity.eventid";
     public final static SimpleDateFormat DATE_FORMAT = Event.DATE_FORMAT;
     public final static SimpleDateFormat TIME_FORMAT = Event.TIME_FORMAT;
-    private static ControllerDbHelper mDbHelper;
+    private ControllerDbHelper mDbHelper;
+    private Alarm mAlarm;
     private Appliance appliance;
     private static Event event;
     private ElectronicType eType;
@@ -63,7 +65,8 @@ public class EditEventActivity extends Activity {
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mDbHelper = new ControllerDbHelper(this);
+        mDbHelper = ((mBaseApplication)this.getApplicationContext()).getDbHelper();
+        mAlarm = ((mBaseApplication)this.getApplicationContext()).getAlarm();
         // set event, appliance, eType
         String titleString = getIntent().getStringExtra(TITLE);
         int[] apArray = getIntent().getIntArrayExtra(APPLIANCE);
@@ -99,13 +102,13 @@ public class EditEventActivity extends Activity {
                         values = DbEntry.Event.put(event);
                         if (isEditingEvent) {
                             mDbHelper.updateEventByPrimaryKey(event.getId(), values);
-                            MainActivity.alarm.update(event);
+                            mAlarm.update(event);
                         } else {
                             int eventId = (int) mDbHelper.getWritableDatabase().insert(
                                     DbEntry.Event.TABLE_NAME, null, values);
                             Log.i("Event added", "ID: " + String.valueOf(eventId));
                             event.setId(eventId);
-                            MainActivity.alarm.set(event);
+                            mAlarm.set(event);
                         }
                         finish();
                     }

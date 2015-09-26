@@ -22,6 +22,7 @@ import com.tcy314.home.DBnClass.Appliance;
 import com.tcy314.home.DBnClass.ControllerDbHelper;
 import com.tcy314.home.DBnClass.DbEntry;
 import com.tcy314.home.DBnClass.Event;
+import com.tcy314.home.alarm.Alarm;
 
 import java.util.ArrayList;
 
@@ -30,7 +31,8 @@ import java.util.ArrayList;
  */
 public class ShowEventActivity extends Activity {
     public final static String APPLIANCE = "com.tcy314.showeventactivity.appliance";
-    private static ControllerDbHelper mDbHelper;
+    private ControllerDbHelper mDbHelper;
+    private Alarm mAlarm;
     private Appliance appliance;
     private EventAdapter eventAdapter;
     private ArrayList<Event> eventArrayList = new ArrayList<>();
@@ -48,7 +50,8 @@ public class ShowEventActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.event_show_main);
-        mDbHelper = new ControllerDbHelper(this);
+        mDbHelper = ((mBaseApplication)this.getApplicationContext()).getDbHelper();
+        mAlarm = ((mBaseApplication)this.getApplicationContext()).getAlarm();
         context = this;
         int[] apArray = getIntent().getIntArrayExtra(APPLIANCE);
         appliance = mDbHelper.getApplianceByPrimaryKey(new Appliance.PrimaryKey(apArray[0],apArray[1]));
@@ -118,7 +121,6 @@ public class ShowEventActivity extends Activity {
         intent.putExtra(EditEventActivity.EVENT_ID, eventId);
         context.startActivity(intent);
         isArrayListUpdated = true;
-        eventIdToBeUpdate = eventId;
     }
 
     private void CreateDeleteDialog(final int position) {
@@ -128,10 +130,9 @@ public class ShowEventActivity extends Activity {
                     public void onClick(DialogInterface dialog, int id) {
                         // Delete from database
                         isArrayListUpdated = true;
-                        eventIdToBeUpdate = eventArrayList.get(position).getId();
                         int eventId = eventArrayList.get(position).getId();
-                        // TODO delete alarm
-                        MainActivity.alarm.delete(mDbHelper.getEventByPrimaryKey(eventId));
+                        //  delete alarm
+                        mAlarm.delete(mDbHelper.getEventByPrimaryKey(eventId));
                         boolean deleted = mDbHelper.deleteEventByPrimaryKey(eventId);
                         updateEventList();
                         if (!deleted) {

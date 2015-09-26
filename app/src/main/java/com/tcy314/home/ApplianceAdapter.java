@@ -18,6 +18,7 @@ import android.widget.ToggleButton;
 import com.tcy314.home.DBnClass.Appliance;
 import com.tcy314.home.DBnClass.ControllerDbHelper;
 import com.tcy314.home.DBnClass.DbEntry;
+import com.tcy314.home.DBnClass.TwoColumnAppliance;
 
 import java.util.ArrayList;
 
@@ -37,7 +38,7 @@ public class ApplianceAdapter extends BaseAdapter {
         this.applianceArray = applianceArray;
         this.context = context;
         this.inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        this.mDbHelper = new ControllerDbHelper(context);
+        this.mDbHelper = ((mBaseApplication)context.getApplicationContext()).getDbHelper();
     }
 
     public Context getContext() {

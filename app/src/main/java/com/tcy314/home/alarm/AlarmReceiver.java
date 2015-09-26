@@ -9,6 +9,7 @@ import com.tcy314.home.DBnClass.Appliance;
 import com.tcy314.home.DBnClass.BLE;
 import com.tcy314.home.DBnClass.ControllerDbHelper;
 import com.tcy314.home.DBnClass.Event;
+import com.tcy314.home.mBaseApplication;
 
 /**
  * Created by Matthew Ma on 24/9/2015.
@@ -17,7 +18,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        ControllerDbHelper mDbHelper = new ControllerDbHelper(context);
+        ControllerDbHelper mDbHelper = ((mBaseApplication)context.getApplicationContext()).getDbHelper();
         int eventId = intent.getIntExtra(Alarm.EVENT_ID, -1);
         int startEnd = intent.getIntExtra(Alarm.START_END, -1);
         Event event = mDbHelper.getEventByPrimaryKey(eventId);

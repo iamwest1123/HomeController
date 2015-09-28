@@ -65,8 +65,8 @@ public class EditEventActivity extends Activity {
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mDbHelper = ((mBaseApplication)this.getApplicationContext()).getDbHelper();
-        mAlarm = ((mBaseApplication)this.getApplicationContext()).getAlarm();
+        mDbHelper = ((BaseApplication)this.getApplicationContext()).getDbHelper();
+        mAlarm = ((BaseApplication)this.getApplicationContext()).getAlarm();
         // set event, appliance, eType
         String titleString = getIntent().getStringExtra(TITLE);
         int[] apArray = getIntent().getIntArrayExtra(APPLIANCE);

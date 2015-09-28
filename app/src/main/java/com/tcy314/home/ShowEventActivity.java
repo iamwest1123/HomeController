@@ -50,8 +50,8 @@ public class ShowEventActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.event_show_main);
-        mDbHelper = ((mBaseApplication)this.getApplicationContext()).getDbHelper();
-        mAlarm = ((mBaseApplication)this.getApplicationContext()).getAlarm();
+        mDbHelper = ((BaseApplication)this.getApplicationContext()).getDbHelper();
+        mAlarm = ((BaseApplication)this.getApplicationContext()).getAlarm();
         context = this;
         int[] apArray = getIntent().getIntArrayExtra(APPLIANCE);
         appliance = mDbHelper.getApplianceByPrimaryKey(new Appliance.PrimaryKey(apArray[0],apArray[1]));

@@ -5,9 +5,9 @@ android {
     buildToolsVersion "22.0.1"
 
     defaultConfig {
-        applicationId "com.tcy314.matthewma.homecontroller"
+        applicationId "com.tcy314.home"
         minSdkVersion 21
-        targetSdkVersion 22
+        targetSdkVersion 23
         versionCode 1
         versionName "1.0"
     }
@@ -21,5 +21,5 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:support-v4:22.2.1'
+    compile 'com.android.support:support-v4:23.0.1'
 }

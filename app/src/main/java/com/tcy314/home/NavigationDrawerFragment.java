@@ -80,7 +80,7 @@ public class NavigationDrawerFragment extends Fragment {
             mFromSavedInstanceState = true;
         }
 
-        mDbHelper = ((mBaseApplication)getActivity().getApplicationContext()).getDbHelper();
+        mDbHelper = ((BaseApplication)getActivity().getApplicationContext()).getDbHelper();
 
         // Select either the default item (0) or the last selected item.
         selectItem(mCurrentSelectedPosition);

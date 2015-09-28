@@ -9,7 +9,7 @@
     <uses-feature android:name="android.hardware.bluetooth_le" android:required="true"/> <!-- device must have BLE -->
 
     <application
-        android:name=".mBaseApplication"
+        android:name=".BaseApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -23,7 +23,7 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".BluetoothLeService" />
+        <service android:name=".service.BluetoothLeService" />
 
         <activity android:name="com.tcy314.home.EditEventActivity"
             android:parentActivityName="com.tcy314.home.MainActivity" />

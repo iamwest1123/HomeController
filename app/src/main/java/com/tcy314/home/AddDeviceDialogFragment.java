@@ -60,7 +60,7 @@ public class AddDeviceDialogFragment extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         // Create the AlertDialog object and return it
         activity = getActivity();
-        mDbHelper = ((mBaseApplication)activity.getApplicationContext()).getDbHelper();
+        mDbHelper = ((BaseApplication)activity.getApplicationContext()).getDbHelper();
         LayoutInflater li = LayoutInflater.from(activity);
         View view = li.inflate(R.layout.add_ble_device, null);
 

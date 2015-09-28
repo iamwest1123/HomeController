@@ -5,16 +5,12 @@ import android.app.ActionBar;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothManager;
 import android.content.ContentValues;
-import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.app.DialogFragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -29,10 +25,9 @@ import com.tcy314.home.DBnClass.ControllerDbHelper;
 import com.tcy314.home.DBnClass.DbEntry;
 import com.tcy314.home.DBnClass.ElectronicType;
 import com.tcy314.home.DBnClass.TwoColumnAppliance;
+import com.tcy314.home.service.ServiceManager;
 
 import java.util.ArrayList;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 public class MainActivity extends Activity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
@@ -56,47 +51,35 @@ public class MainActivity extends Activity
      */
 //    private LeDeviceListAdapter mLeDeviceListAdapter;
     private static final int REQUEST_ENABLE_BT = 1;
-    private BluetoothAdapter mBluetoothAdapter;
+    private ServiceManager mServiceManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Lock l = new ReentrantLock();
-        l.lock();
-        try {
-            mDbHelper = ((mBaseApplication)this.getApplicationContext()).getDbHelper();
-        } finally {
-            l.unlock();
-        }
-        l.lock();
-        try {
-            insertTestEntry();
-            mNavigationDrawerFragment = (NavigationDrawerFragment)
-                    getFragmentManager().findFragmentById(R.id.navigation_drawer);
-            mTitle = getTitle();
+        mDbHelper = ((BaseApplication)this.getApplicationContext()).getDbHelper();
 
-            // Set up the drawer.
-            mNavigationDrawerFragment.setUp(
-                    R.id.navigation_drawer,
-                    (DrawerLayout) findViewById(R.id.drawer_layout));
-        } finally {
-            l.unlock();
-        }
+        mNavigationDrawerFragment = (NavigationDrawerFragment)
+                getFragmentManager().findFragmentById(R.id.navigation_drawer);
+        mTitle = getTitle();
+
+        // Set up the drawer.
+        mNavigationDrawerFragment.setUp(
+                R.id.navigation_drawer,
+                (DrawerLayout) findViewById(R.id.drawer_layout));
+
+        // Initializes a Bluetooth adapter.  For API level 18 and above, get a reference to
+        // BluetoothAdapter through BluetoothManager.
         if (!getPackageManager().hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE)) {
             Toast.makeText(this, R.string.ble_not_supported, Toast.LENGTH_SHORT).show();
             finish();
         }
 
-        // Initializes a Bluetooth adapter.  For API level 18 and above, get a reference to
-        // BluetoothAdapter through BluetoothManager.
-        final BluetoothManager bluetoothManager =
-                (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
-        mBluetoothAdapter = bluetoothManager.getAdapter();
+        mServiceManager = ((BaseApplication)this.getApplicationContext()).getServiceManager();
 
         // Checks if Bluetooth is supported on the device.
-        if (mBluetoothAdapter == null) {
+        if (mServiceManager == null) {
             Toast.makeText(this, R.string.error_bluetooth_not_supported, Toast.LENGTH_SHORT).show();
             finish();
         }
@@ -105,70 +88,13 @@ public class MainActivity extends Activity
     protected void onResume() {
         super.onResume();
 
-        // Ensures Bluetooth is enabled on the device.  If Bluetooth is not currently enabled,
-        // fire an intent to display a dialog asking the user to grant permission to enable it.
-        if (!mBluetoothAdapter.isEnabled()) {
-            if (!mBluetoothAdapter.isEnabled()) {
-                Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-                startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
-            }
-        }
-
-        // Initializes list view adapter.
-//        mLeDeviceListAdapter = new LeDeviceListAdapter();
-//        setListAdapter(mLeDeviceListAdapter);
-//        scanLeDevice(true);
+        // Ensures Bluetooth is enabled on the device.
+//        if (!mServiceManager.isEnabled()) {
+//            BluetoothAdapter.getDefaultAdapter().enable();
+//        }
     }
 
-    private void insertTestEntry() {
-        SQLiteDatabase db = mDbHelper.getWritableDatabase();
-        db.delete(DbEntry.Appliance.TABLE_NAME, null, null);
-        db.delete(DbEntry.BLE.TABLE_NAME, null, null);
-        db.delete(DbEntry.Room.TABLE_NAME, null, null);
-        db.delete(DbEntry.ElectronicType.TABLE_NAME, null, null);
 
-        ContentValues values;
-        values = DbEntry.ElectronicType.put(1, "Light", ElectronicType.TOGGLE_BUTTON, 2);
-        db.insert(DbEntry.ElectronicType.TABLE_NAME, null, values);
-        values.clear();
-        values = DbEntry.ElectronicType.put(2, "Fan", ElectronicType.SWITCH, 1);
-        db.insert(DbEntry.ElectronicType.TABLE_NAME, null, values);
-        values.clear();
-
-        values = DbEntry.Appliance.put(1, 1, "TestSwitch 01", 1, false, 0, 2, 0);
-        db.insert(DbEntry.Appliance.TABLE_NAME, null, values);
-        values.clear();
-        values = DbEntry.Appliance.put(1, 2, "TestSwitch 02", 1, false, 0, 2, 300);
-        db.insert(DbEntry.Appliance.TABLE_NAME, null, values);
-        values.clear();
-        values = DbEntry.Appliance.put(1, 3, "TestSwitch 03", 1, false, -1, 2, 200);
-        db.insert(DbEntry.Appliance.TABLE_NAME, null, values);
-        values.clear();
-        values = DbEntry.Appliance.put(2, 1, "TestSwitch 04", 1, false, 0, 3, 100);
-        db.insert(DbEntry.Appliance.TABLE_NAME, null, values);
-        values.clear();
-        values = DbEntry.Appliance.put(2, 2, "TestFan 01", 2, false, 0, 3, 201);
-        db.insert(DbEntry.Appliance.TABLE_NAME, null, values);
-        values.clear();
-
-        values = DbEntry.Room.put(1, "Frequently used");
-        db.insert(DbEntry.Room.TABLE_NAME, null, values);
-        values.clear();
-        values = DbEntry.Room.put(2, "TestRoom 1");
-        db.insert(DbEntry.Room.TABLE_NAME, null, values);
-        values.clear();
-        values = DbEntry.Room.put(3, "TestRoom 2");
-        db.insert(DbEntry.Room.TABLE_NAME, null, values);
-        values.clear();
-
-        values = DbEntry.BLE.put(1, "DUMMY", 1);
-        db.insert(DbEntry.BLE.TABLE_NAME, null, values);
-        values.clear();
-
-        Log.i("insertTestEntry", "Complete");
-
-        db.close();
-    }
 
     @Override
     public void onNavigationDrawerItemSelected(int position) {

@@ -9,8 +9,7 @@ import android.database.sqlite.SQLiteDatabase;
 import com.tcy314.home.DBnClass.ControllerDbHelper;
 import com.tcy314.home.DBnClass.DbEntry;
 import com.tcy314.home.DBnClass.Event;
-import com.tcy314.home.MainActivity;
-import com.tcy314.home.mBaseApplication;
+import com.tcy314.home.BaseApplication;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -22,8 +21,8 @@ public class DeviceBootReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        ControllerDbHelper mDbHelper = ((mBaseApplication)context.getApplicationContext()).getDbHelper();
-        Alarm mAlarm = ((mBaseApplication)context.getApplicationContext()).getAlarm();
+        ControllerDbHelper mDbHelper = ((BaseApplication)context.getApplicationContext()).getDbHelper();
+        Alarm mAlarm = ((BaseApplication)context.getApplicationContext()).getAlarm();
         ArrayList<Event> eventArrayList = new ArrayList<>();
         if (intent.getAction().equals("android.intent.action.BOOT_COMPLETED")) {
             /* Setting the alarm here */

@@ -38,7 +38,7 @@ public class ApplianceAdapter extends BaseAdapter {
         this.applianceArray = applianceArray;
         this.context = context;
         this.inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        this.mDbHelper = ((mBaseApplication)context.getApplicationContext()).getDbHelper();
+        this.mDbHelper = ((BaseApplication)context.getApplicationContext()).getDbHelper();
     }
 
     public Context getContext() {

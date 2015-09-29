@@ -4,11 +4,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 
+import java.util.ArrayList;
+
 /**
  * Created by Matthew Ma on 28/9/2015.
  */
 public class ServiceManager {
-    private static final String tag = ServiceManager.class.getSimpleName();
+    private static final String TAG = ServiceManager.class.getSimpleName();
 
     // Keep track of the service run state.
     private boolean serviceStarted = false;
@@ -17,25 +19,13 @@ public class ServiceManager {
     private Context context;
     // The intent we will use to start the service and bind activities.
     private Intent mBluetoothLeService = null;
+    private ArrayList<String> tagArrayList = new ArrayList<String>();
 
     public ServiceManager(Context context)
     {
         this.context = context;
         // Create our intent.
         mBluetoothLeService = new Intent(this.context, BluetoothLeService.class);
-        startService();
-    }
-
-    /**
-     * Bind a Service Connection from a component (probably an Activity) to the
-     * service so it can receive status updates.
-     *
-     * @param serviceConnection
-     */
-    public void bindService(ServiceConnection serviceConnection)
-    {
-        this.context.bindService(mBluetoothLeService, serviceConnection,
-                Context.BIND_AUTO_CREATE);
     }
 
     /**
@@ -44,33 +34,27 @@ public class ServiceManager {
      */
     public boolean isServiceStarted()
     {
-        return serviceStarted;
+        return (!tagArrayList.isEmpty());
     }
 
     /**
      * Start the service.
      */
-    public void startService()
+    public void startService(String tag)
     {
-        serviceStarted = true;
-        this.context.startService(mBluetoothLeService);
+        if (tagArrayList.isEmpty())
+            this.context.startService(mBluetoothLeService);
+        tagArrayList.add(tag);
     }
 
     /**
      * Stop the service.
      */
-    public void stopService()
+    public void stopService(String tag)
     {
-        serviceStarted = false;
-        this.context.stopService(mBluetoothLeService);
-    }
-
-    /**
-     * Unbind a Service Connection from a component (probably an Activity).
-     * @param serviceConnection
-     */
-    public void unbindService(ServiceConnection serviceConnection)
-    {
-        this.context.unbindService(serviceConnection);
+        if (tagArrayList.contains(tag))
+            tagArrayList.remove(tag);
+        if (tagArrayList.isEmpty())
+            this.context.stopService(mBluetoothLeService);
     }
 }

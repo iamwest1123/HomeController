@@ -5,12 +5,18 @@ import android.app.ActionBar;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.bluetooth.BluetoothAdapter;
+import android.content.ComponentName;
 import android.content.ContentValues;
+import android.content.Context;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.app.DialogFragment;
+import android.os.IBinder;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,12 +31,14 @@ import com.tcy314.home.DBnClass.ControllerDbHelper;
 import com.tcy314.home.DBnClass.DbEntry;
 import com.tcy314.home.DBnClass.ElectronicType;
 import com.tcy314.home.DBnClass.TwoColumnAppliance;
+import com.tcy314.home.service.BluetoothLeService;
 import com.tcy314.home.service.ServiceManager;
 
 import java.util.ArrayList;
 
 public class MainActivity extends Activity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
+    private final static String TAG = MainActivity.class.getSimpleName();
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -49,10 +57,32 @@ public class MainActivity extends Activity
     /**
      * Bluetooth related variables
      */
-//    private LeDeviceListAdapter mLeDeviceListAdapter;
-    private static final int REQUEST_ENABLE_BT = 1;
+    //region Ble service variables
     private ServiceManager mServiceManager;
+    private BluetoothLeService mBluetoothLeService;
+    private String mDeviceAddress = "00:15:83:00:46:FE";
+    // Code to manage Service lifecycle.
+    private final ServiceConnection mServiceConnection = new ServiceConnection() {
 
+        @Override
+        public void onServiceConnected(ComponentName componentName, IBinder service) {
+            mBluetoothLeService = ((BluetoothLeService.LocalBinder) service).getService();
+            if (!mBluetoothLeService.initialize()) {
+                Log.e(TAG, "Unable to initialize Bluetooth");
+                finish();
+            }
+            // Automatically connects to the device upon successful start-up initialization.
+            mBluetoothLeService.connect(mDeviceAddress);
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName componentName) {
+            mBluetoothLeService = null;
+        }
+    };
+    //endregion
+
+    //region Override activity method
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,18 +113,10 @@ public class MainActivity extends Activity
             Toast.makeText(this, R.string.error_bluetooth_not_supported, Toast.LENGTH_SHORT).show();
             finish();
         }
+        // bind with ble service
+        Intent gattServiceIntent = new Intent(this, BluetoothLeService.class);
+        bindService(gattServiceIntent, mServiceConnection, BIND_AUTO_CREATE);
     }
-
-    protected void onResume() {
-        super.onResume();
-
-        // Ensures Bluetooth is enabled on the device.
-//        if (!mServiceManager.isEnabled()) {
-//            BluetoothAdapter.getDefaultAdapter().enable();
-//        }
-    }
-
-
 
     @Override
     public void onNavigationDrawerItemSelected(int position) {
@@ -103,28 +125,6 @@ public class MainActivity extends Activity
         fragmentManager.beginTransaction()
                 .replace(R.id.container, PlaceholderFragment.newInstance(position + 1))
                 .commit();
-    }
-
-    public void onSectionAttached(int number) {
-        // get title
-        mTitle = mDbHelper.getRoomByPrimaryKey(number);
-        switch (number)
-        {
-            case 1: //freq use
-                setFrequentlyUsedArrayList(3);
-                break;
-            default:
-                // Connect to BLE Devices in background thread
-                setApplianceAdapterByRoomID(number);
-                break;
-        }
-    }
-
-    public void restoreActionBar() {
-        ActionBar actionBar = getActionBar();
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-        actionBar.setDisplayShowTitleEnabled(true);
-        actionBar.setTitle(mTitle);
     }
 
     @Override
@@ -161,6 +161,30 @@ public class MainActivity extends Activity
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    //endregion
+
+    public void onSectionAttached(int number) {
+        // get title
+        mTitle = mDbHelper.getRoomByPrimaryKey(number);
+        switch (number)
+        {
+            case 1: //freq use
+                setFrequentlyUsedArrayList(3);
+                break;
+            default:
+                // Connect to BLE Devices in background thread
+                setApplianceAdapterByRoomID(number);
+                break;
+        }
+    }
+
+    public void restoreActionBar() {
+        ActionBar actionBar = getActionBar();
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+        actionBar.setDisplayShowTitleEnabled(true);
+        actionBar.setTitle(mTitle);
     }
 
     private void setFrequentlyUsedArrayList(int limit) {

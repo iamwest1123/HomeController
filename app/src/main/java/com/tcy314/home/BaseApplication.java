@@ -26,8 +26,6 @@ public class BaseApplication extends Application {
 
     private ControllerDbHelper dbHelper;
     private Alarm alarm;
-    private BluetoothLeService mBluetoothLeService;
-    private ArrayList<BluetoothDevice> mLeDevices;
     private ServiceManager serviceManager;
 
     @Override
@@ -38,8 +36,6 @@ public class BaseApplication extends Application {
         if (!getPackageManager().hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE)) {
             Toast.makeText(this, R.string.ble_not_supported, Toast.LENGTH_SHORT).show();
         }
-        if (!BluetoothAdapter.getDefaultAdapter().isEnabled())
-            BluetoothAdapter.getDefaultAdapter().enable();
 
         dbHelper = new ControllerDbHelper(this);
         alarm = new Alarm(this);

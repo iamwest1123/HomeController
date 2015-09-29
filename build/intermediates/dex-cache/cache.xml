@@ -9,18 +9,18 @@
         <dex dex="D:\AndroidProject\HomeController\app\build\intermediates\pre-dexed\debug\classes-1750425ce4cb4f07153bf4d6f1d9cca5c96d1094.jar" />
     </item>
     <item
-        jar="C:\Users\Matthew Ma\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\23.0.1\support-annotations-23.0.1.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="1fce89a6428c51467090d7f424e4c9c3dbd55f7e">
-        <dex dex="D:\AndroidProject\HomeController\app\build\intermediates\pre-dexed\debug\support-annotations-23.0.1-b160a905ba42280a94d6a3db750674633c381782.jar" />
-    </item>
-    <item
         jar="D:\AndroidProject\HomeController\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\jars\libs\internal_impl-23.0.1.jar"
         jumboMode="false"
         revision="22.0.1"
         sha1="aa92916125166649d8ad4ba3940c3dd7515596d3">
         <dex dex="D:\AndroidProject\HomeController\app\build\intermediates\pre-dexed\debug\internal_impl-23.0.1-11ee821dd2e6534c5c35dd34d13f3ff9cf645c0c.jar" />
+    </item>
+    <item
+        jar="C:\Users\Matthew Ma\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\23.0.1\support-annotations-23.0.1.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="1fce89a6428c51467090d7f424e4c9c3dbd55f7e">
+        <dex dex="D:\AndroidProject\HomeController\app\build\intermediates\pre-dexed\debug\support-annotations-23.0.1-b160a905ba42280a94d6a3db750674633c381782.jar" />
     </item>
 
 </items>
